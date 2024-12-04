@@ -3,6 +3,7 @@
 #include <memory.h>
 
 #include "Player.h"
+#include "Enemy.h"
 
 //
 //  You are free to modify this file

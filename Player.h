@@ -21,11 +21,7 @@ public:
 
     Vector2D GetSize() { return Size; }
 
-    void SetLocation(float X = 200.0f, float Y = 200.0f)
-    {
-        Location.X = X;
-        Location.Y = Y;
-    }
+    void SetLocation(float X = 200.0f, float Y = 200.0f) { Location = { X, Y }; }
 
     void SetColor(uint32_t LColor) { Color = LColor; }
 
