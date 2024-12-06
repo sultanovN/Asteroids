@@ -11,7 +11,7 @@ private:
 
 public:
 
-    Enemy(Vector2D Location = { 500.0f, 200.0f }, Vector2D Size = { 40.f, 50.f },
+    Enemy(Vector2D Location = { 500.0f, 500.0f }, Vector2D Size = { 40.f, 50.f },
         uint32_t Color = MakeColor(255, 0, 0))
         : Location(Location), Size(Size), Color(Color)
     {
@@ -41,9 +41,5 @@ public:
         {
             Location.X -= speed * dt;
         }
-    }
-
-    void switchLine()
-    {
     }
 };

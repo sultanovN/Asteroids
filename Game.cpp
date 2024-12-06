@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 
+
 //
 //  You are free to modify this file
 //
@@ -22,11 +23,28 @@
 
 Player player;
 Enemy enemy[3];
-bool EnemyLines[3];
+bool EnemyLines[3] = { 1, 1, 1 };
+
+void EnemySpawn(Enemy enemy[], int enemyNum, bool lines[], int linesNum)
+{
+    for (int i = 0; i < enemyNum; i++)
+    {
+        for (int j = 0; j < linesNum; j++)
+        {
+            if (lines[j])
+            {
+                enemy[i].SetLocation(200.0f * (i + 1), 10.0f * (j+1));
+                lines[j] = false;
+            }
+        }
+    }
+}
 
 // initialize game data in this function
 void initialize()
 {
+    EnemySpawn(enemy, 3, EnemyLines, 3);
+
 }
 
 // this function is called to update game data,
@@ -48,7 +66,15 @@ void act(float dt)
         player.SetLocation(player.GetLocation().X - 400.f * dt, player.GetLocation().Y);
     }
 
-    enemy[0].Move(dt, SCREEN_WIDTH);
+    if (is_key_pressed(VK_SPACE))
+    {
+        player.Shoot();
+    }
+
+    player.ProjMove(dt);
+
+    for(int i = 0; i < 3; i++)
+        enemy[i].Move(dt, SCREEN_WIDTH);
 }
 
 
@@ -86,8 +112,13 @@ void draw()
     objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
         player.GetSize().Y, player.GetColor());
 
-    objectDraw(enemy[0].GetLocation().X, enemy[0].GetLocation().Y, enemy[0].GetSize().X,
-        enemy[0].GetSize().Y, enemy[0].GetColor());
+    for (int i = 0; i < 3; i++)
+    {
+        objectDraw(enemy[i].GetLocation().X, enemy[i].GetLocation().Y, enemy[i].GetSize().X,
+            enemy[i].GetSize().Y, enemy[i].GetColor());
+    }
+    
+    player.ProjDraw();
 }
 
 // free game data in this function
