@@ -7,11 +7,12 @@ private:
     Vector2D Location;
     Vector2D Size;
     uint32_t Color;
+    bool MovingRight = true;
 
 public:
 
-    Enemy(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 100.f, 80.f },
-        uint32_t Color = MakeColor(125, 0, 125))
+    Enemy(Vector2D Location = { 500.0f, 200.0f }, Vector2D Size = { 40.f, 50.f },
+        uint32_t Color = MakeColor(255, 0, 0))
         : Location(Location), Size(Size), Color(Color)
     {
     }
@@ -25,4 +26,24 @@ public:
     void SetColor(uint32_t LColor) { Color = LColor; }
 
     uint32_t GetColor() { return Color; }
+
+    void Move(float dt, int screenWidth = 1024, float speed = 200.0f)
+    {
+        if (Location.X < 50.0f)
+            MovingRight = true;
+        if (Location.X + Size.X > (screenWidth - 50.0f))
+            MovingRight = false;
+        if (MovingRight)
+        {
+            Location.X += speed * dt;
+        }
+        else
+        {
+            Location.X -= speed * dt;
+        }
+    }
+
+    void switchLine()
+    {
+    }
 };

@@ -11,7 +11,7 @@ private:
 
 public:
 
-    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 100.f, 80.f },
+    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f },
         uint32_t Color = MakeColor(125, 0, 125))
         : Location(Location), Size(Size), Color(Color)
     {

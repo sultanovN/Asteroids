@@ -21,6 +21,8 @@
 
 
 Player player;
+Enemy enemy[3];
+bool EnemyLines[3];
 
 // initialize game data in this function
 void initialize()
@@ -45,6 +47,8 @@ void act(float dt)
     {
         player.SetLocation(player.GetLocation().X - 400.f * dt, player.GetLocation().Y);
     }
+
+    enemy[0].Move(dt, SCREEN_WIDTH);
 }
 
 
@@ -57,6 +61,10 @@ void objectDraw(float X, float Y, float width, float height, uint32_t objectColo
             {
                 buffer[y][x] = objectColor;
             }
+            /*else 
+            {
+                buffer[y][x] = MakeColor(255, 255, 255);
+            }*/
         }
 }
 
@@ -68,9 +76,18 @@ void draw()
     // clear backbuffer
     memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
 
+    //Background color
+    /*for (int x = 0; x < SCREEN_WIDTH; x++)
+        for (int y = 0; y < SCREEN_HEIGHT; y++)
+        {
+            buffer[y][x] = MakeColor(200, 200, 200);
+        }*/
+
     objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
         player.GetSize().Y, player.GetColor());
 
+    objectDraw(enemy[0].GetLocation().X, enemy[0].GetLocation().Y, enemy[0].GetSize().X,
+        enemy[0].GetSize().Y, enemy[0].GetColor());
 }
 
 // free game data in this function
