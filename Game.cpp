@@ -68,13 +68,18 @@ void act(float dt)
 
     if (is_key_pressed(VK_SPACE))
     {
-        player.Shoot();
+        player.ProjectileComponent.Shoot(player.GetLocation(), player.GetSize().X);
     }
 
-    player.ProjMove(dt);
+    player.ProjectileComponent.ProjMove(dt);
 
-    for(int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
+    {
         enemy[i].Move(dt, SCREEN_WIDTH);
+        enemy[i].ProjComponent.Shoot(enemy[i].GetLocation(), enemy[i].GetSize().X);
+        enemy[i].ProjComponent.ProjMove(dt);
+    }
+
 }
 
 
@@ -111,14 +116,17 @@ void draw()
 
     objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
         player.GetSize().Y, player.GetColor());
+    player.ProjectileComponent.ProjDraw();
+
 
     for (int i = 0; i < 3; i++)
     {
         objectDraw(enemy[i].GetLocation().X, enemy[i].GetLocation().Y, enemy[i].GetSize().X,
             enemy[i].GetSize().Y, enemy[i].GetColor());
+        enemy[i].ProjComponent.ProjDraw();
+
     }
     
-    player.ProjDraw();
 }
 
 // free game data in this function

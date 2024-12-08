@@ -17,6 +17,9 @@ public:
     {
     }
 
+    ProjectileComponent ProjComponent{false, {10.f, 10.f}, MakeColor(255, 0, 0) };
+
+
     Vector2D GetLocation() { return Location; }
 
     Vector2D GetSize() { return Size; }
@@ -42,4 +45,6 @@ public:
             Location.X -= speed * dt;
         }
     }
+
+
 };
