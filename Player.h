@@ -13,14 +13,15 @@ private:
 
 public:
 
-    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f },
+    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, uint8_t Health = 3,
         uint32_t Color = MakeColor(125, 0, 125))
-        : Location(Location), Size(Size), Color(Color)
+        : Location(Location), Size(Size), Health(Health), Color(Color)
     {
     }
 
     ProjectileComponent ProjectileComponent;
-
+    //HealthComponent HealthComp;
+    uint8_t Health;
 
     Vector2D GetLocation() { return Location; }
 
@@ -31,5 +32,6 @@ public:
     void SetColor(uint32_t LColor) { Color = LColor; }
 
     uint32_t GetColor() { return Color; }
-
+    
+    
 };

@@ -73,11 +73,24 @@ void act(float dt)
 
     player.ProjectileComponent.ProjMove(dt);
 
+
+
     for (int i = 0; i < 3; i++)
     {
         enemy[i].Move(dt, SCREEN_WIDTH);
         enemy[i].ProjComponent.Shoot(enemy[i].GetLocation(), enemy[i].GetSize().X);
         enemy[i].ProjComponent.ProjMove(dt);
+        player.ProjectileComponent.CollisionRect(enemy[i].Health, 1, enemy[i].GetLocation(), enemy[i].GetSize());
+        enemy[i].ProjComponent.CollisionRect(player.Health, 1, player.GetLocation(), player.GetSize());
+
+        if (enemy[i].Health == 0)
+        {
+            enemy[i].SetColor(MakeColor(0, 0, 0));
+        }
+    }
+    if (player.Health == 0)
+    {
+        player.SetColor(MakeColor(0, 0, 0));
     }
 
 }

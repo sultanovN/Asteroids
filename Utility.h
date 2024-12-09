@@ -125,4 +125,34 @@ public:
         }
 
     }
+
+    void CollisionRect(uint8_t &EnemyHealth, uint8_t Damage, Vector2D EnemyLocation, Vector2D EnemySize)
+    {
+        for (int i = 0; i < projectilesLocation.size(); i++)
+        {
+            if (RectRectCollision(EnemyLocation.X, EnemyLocation.Y, EnemySize.X, EnemySize.Y, 
+                projectilesLocation.at(i).X, projectilesLocation.at(i).Y, Size.X, Size.Y))
+            {
+                EnemyHealth -= Damage;
+                projectilesLocation.erase(projectilesLocation.begin() + i);
+            }
+        }
+    }
 };
+
+//class HealthComponent
+//{
+//    uint8_t Health;
+//
+//public:
+//    HealthComponent()
+//        : Health(2)
+//    {
+//
+//    }
+//
+//    void ReduceHealth(uint8_t Damage)
+//    {
+//        Health -= Damage;
+//    }
+//};
