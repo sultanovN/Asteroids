@@ -13,7 +13,7 @@ private:
 
 public:
 
-    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, uint8_t Health = 3,
+    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 3,
         uint32_t Color = MakeColor(125, 0, 125))
         : Location(Location), Size(Size), Health(Health), Color(Color)
     {
@@ -21,7 +21,8 @@ public:
 
     ProjectileComponent ProjectileComponent;
     //HealthComponent HealthComp;
-    uint8_t Health;
+    int8_t Health;
+    bool isAlive = true;
 
     Vector2D GetLocation() { return Location; }
 
@@ -33,5 +34,5 @@ public:
 
     uint32_t GetColor() { return Color; }
     
-    
+    bool GetIsAlive() { return isAlive; }
 };

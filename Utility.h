@@ -126,7 +126,7 @@ public:
 
     }
 
-    void CollisionRect(uint8_t &EnemyHealth, uint8_t Damage, Vector2D EnemyLocation, Vector2D EnemySize)
+    void CollisionRect(int8_t &EnemyHealth, uint8_t Damage, bool &isAlive, Vector2D EnemyLocation, Vector2D EnemySize)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
         {
@@ -135,6 +135,10 @@ public:
             {
                 EnemyHealth -= Damage;
                 projectilesLocation.erase(projectilesLocation.begin() + i);
+                if (EnemyHealth <= 0)
+                {
+                    isAlive = false;
+                }
             }
         }
     }

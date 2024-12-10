@@ -22,35 +22,58 @@
 
 
 Player player;
-Enemy enemy[3];
-bool EnemyLines[3] = { 1, 1, 1 };
+std::vector<Enemy> enemy;
 
-void EnemySpawn(Enemy enemy[], int enemyNum, bool lines[], int linesNum)
-{
-    for (int i = 0; i < enemyNum; i++)
-    {
-        for (int j = 0; j < linesNum; j++)
-        {
-            if (lines[j])
-            {
-                enemy[i].SetLocation(200.0f * (i + 1), 10.0f * (j+1));
-                lines[j] = false;
-            }
-        }
-    }
-}
+//std::vector<ProjectileComponent> Rocks;
+//Enemy enemy[3];
+bool EnemyLines[3] = { 1, 1, 1 };
+//
+//void EnemySpawn(std::vector<Enemy> enemy, int enemyNum, bool lines[], int linesNum)
+//{
+//    for (int i = 0; i < enemy.size(); i++)
+//    {
+//        for (int j = 0; j < linesNum; j++)
+//        {
+//            if (lines[j])
+//            {
+//                enemy.at(i).SetLocation(200.0f * (i + 1), 10.0f * (j + 1));
+//                lines[j] = false;
+//            }
+//        }
+//    }
+//}
 
 // initialize game data in this function
 void initialize()
 {
-    EnemySpawn(enemy, 3, EnemyLines, 3);
-
+    player = Player{};
+    enemy = { {{100.0f, 100.0f} }, {{200.0f, 200.0f}}, {{400.0f, 400.0f}}
+};
+    //EnemySpawn(enemy, 3, EnemyLines, 3);
 }
 
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
+    if (!player.GetIsAlive())
+    {
+        while (1)
+        {
+            if (is_key_pressed(VK_SPACE))
+            {
+                player.isAlive = true;
+                initialize();
+                break;
+            }
+
+            if (is_key_pressed(VK_ESCAPE))
+            {
+                schedule_quit_game();
+            }
+        }
+    }
+
     if (is_key_pressed(VK_ESCAPE))
     {
         schedule_quit_game();
@@ -75,24 +98,21 @@ void act(float dt)
 
 
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < enemy.size(); i++)
     {
-        enemy[i].Move(dt, SCREEN_WIDTH);
-        enemy[i].ProjComponent.Shoot(enemy[i].GetLocation(), enemy[i].GetSize().X);
-        enemy[i].ProjComponent.ProjMove(dt);
-        player.ProjectileComponent.CollisionRect(enemy[i].Health, 1, enemy[i].GetLocation(), enemy[i].GetSize());
-        enemy[i].ProjComponent.CollisionRect(player.Health, 1, player.GetLocation(), player.GetSize());
+        enemy.at(i).Move(dt, SCREEN_WIDTH);
+        enemy.at(i).ProjComponent.Shoot(enemy.at(i).GetLocation(), enemy.at(i).GetSize().X);
+        enemy.at(i).ProjComponent.ProjMove(dt);
+        player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
+            enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+        enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
 
-        if (enemy[i].Health == 0)
+        if (!enemy.at(i).isAlive)
         {
-            enemy[i].SetColor(MakeColor(0, 0, 0));
+            enemy.erase(enemy.begin() + i);
+            //enemy[i].SetColor(MakeColor(0, 0, 0));
         }
     }
-    if (player.Health == 0)
-    {
-        player.SetColor(MakeColor(0, 0, 0));
-    }
-
 }
 
 
@@ -105,10 +125,6 @@ void objectDraw(float X, float Y, float width, float height, uint32_t objectColo
             {
                 buffer[y][x] = objectColor;
             }
-            /*else 
-            {
-                buffer[y][x] = MakeColor(255, 255, 255);
-            }*/
         }
 }
 
@@ -132,11 +148,11 @@ void draw()
     player.ProjectileComponent.ProjDraw();
 
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < enemy.size(); i++)
     {
-        objectDraw(enemy[i].GetLocation().X, enemy[i].GetLocation().Y, enemy[i].GetSize().X,
-            enemy[i].GetSize().Y, enemy[i].GetColor());
-        enemy[i].ProjComponent.ProjDraw();
+        objectDraw(enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y, enemy.at(i).GetSize().X,
+            enemy.at(i).GetSize().Y, enemy.at(i).GetColor());
+        enemy.at(i).ProjComponent.ProjDraw();
 
     }
     

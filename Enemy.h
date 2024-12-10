@@ -12,7 +12,7 @@ private:
 
 public:
 
-    Enemy(Vector2D Location = { 500.0f, 500.0f }, Vector2D Size = { 40.f, 50.f }, uint8_t Health = 1,
+    Enemy(Vector2D Location = { 500.0f, 500.0f }, Vector2D Size = { 40.f, 50.f }, int8_t Health = 1,
         uint32_t Color = MakeColor(255, 0, 0))
         : Location(Location), Size(Size), Health(Health), Color(Color)
     {
@@ -21,7 +21,8 @@ public:
 
     ProjectileComponent ProjComponent{false, {10.f, 10.f}, MakeColor(255, 0, 0) };
     //HealthComponent HealthComp;
-    uint8_t Health = 1;
+    int8_t Health;
+    bool isAlive = true;
 
     Vector2D GetLocation() { return Location; }
 
