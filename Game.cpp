@@ -89,13 +89,17 @@ void act(float dt)
         player.SetLocation(player.GetLocation().X - 400.f * dt, player.GetLocation().Y);
     }
 
-    if (is_key_pressed(VK_SPACE))
+    if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
     {
         player.ProjectileComponent.Shoot(player.GetLocation(), player.GetSize().X);
     }
 
     player.ProjectileComponent.ProjMove(dt);
 
+    if (is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN))
+    {
+        player.SetLocation(get_cursor_x() *dt);
+    }
 
 
     for (int i = 0; i < enemy.size(); i++)

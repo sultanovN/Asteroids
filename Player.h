@@ -23,6 +23,7 @@ public:
     //HealthComponent HealthComp;
     int8_t Health;
     bool isAlive = true;
+    bool MouseMode = false;
 
     Vector2D GetLocation() { return Location; }
 
