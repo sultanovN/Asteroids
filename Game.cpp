@@ -7,6 +7,14 @@
 
 
 //
+// enemy respawn
+// text render
+// health visual
+// levels
+// 
+// 
+//
+
 //  You are free to modify this file
 //
 
@@ -47,8 +55,8 @@ bool EnemyLines[3] = { 1, 1, 1 };
 void initialize()
 {
     player = Player{};
-    enemy = { {{100.0f, 100.0f} }, {{200.0f, 200.0f}}, {{400.0f, 400.0f}}
-};
+    enemy.reserve(6);
+    enemy = { {{100.0f, 100.0f} }, {{200.0f, 200.0f}}, {{400.0f, 400.0f}}};
     //EnemySpawn(enemy, 3, EnemyLines, 3);
 }
 
@@ -96,11 +104,18 @@ void act(float dt)
 
     player.ProjectileComponent.ProjMove(dt);
 
-    if (is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN))
+    if ((is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN)) && !player.MouseMode)
     {
-        player.SetLocation(get_cursor_x() *dt);
+        player.MouseMode = true;
     }
+    
+    if(is_key_pressed(VK_RETURN) && player.MouseMode)
+        player.MouseMode = false;
 
+    if (player.MouseMode && (get_cursor_x() < (SCREEN_WIDTH - player.GetSize().X/2) && (get_cursor_x() > 0)))
+    {
+        player.SetLocation(get_cursor_x() + 400.f * dt, player.GetLocation().Y);
+    }
 
     for (int i = 0; i < enemy.size(); i++)
     {
@@ -109,18 +124,24 @@ void act(float dt)
         enemy.at(i).ProjComponent.ProjMove(dt);
         player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
             enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+
         enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+
+        //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
 
         if (!enemy.at(i).isAlive)
         {
             enemy.erase(enemy.begin() + i);
             //enemy[i].SetColor(MakeColor(0, 0, 0));
         }
+
     }
+
+
 }
 
 
-void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
+const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
 {
     for (int x = 0; x < SCREEN_WIDTH; x++)
         for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -141,11 +162,11 @@ void draw()
     memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
 
     //Background color
-    /*for (int x = 0; x < SCREEN_WIDTH; x++)
+    for (int x = 0; x < SCREEN_WIDTH; x++)
         for (int y = 0; y < SCREEN_HEIGHT; y++)
         {
-            buffer[y][x] = MakeColor(200, 200, 200);
-        }*/
+            buffer[y][x] = MakeColor(255, 255, 230);
+        }
 
     objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
         player.GetSize().Y, player.GetColor());

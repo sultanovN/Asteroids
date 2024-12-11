@@ -14,8 +14,8 @@ private:
 public:
 
     Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 3,
-        uint32_t Color = MakeColor(125, 0, 125))
-        : Location(Location), Size(Size), Health(Health), Color(Color)
+        uint32_t Color = MakeColor(125, 0, 125), bool MouseMode = false)
+        : Location(Location), Size(Size), Health(Health), Color(Color), MouseMode(MouseMode)
     {
     }
 
@@ -25,15 +25,15 @@ public:
     bool isAlive = true;
     bool MouseMode = false;
 
-    Vector2D GetLocation() { return Location; }
+    Vector2D GetLocation() const { return Location; }
 
-    Vector2D GetSize() { return Size; }
+    Vector2D GetSize() const { return Size; }
 
-    void SetLocation(float X = 200.0f, float Y = 200.0f) { Location = { X, Y }; }
+    void SetLocation(const float X = 200.0f, const float Y = 600.0f) { Location = { X, Y }; }
 
-    void SetColor(uint32_t LColor) { Color = LColor; }
+    void SetColor(const uint32_t LColor) { Color = LColor; }
 
-    uint32_t GetColor() { return Color; }
+    uint32_t GetColor() const { return Color; }
     
-    bool GetIsAlive() { return isAlive; }
+    bool GetIsAlive() const { return isAlive; }
 };

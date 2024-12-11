@@ -24,17 +24,17 @@ public:
     int8_t Health;
     bool isAlive = true;
 
-    Vector2D GetLocation() { return Location; }
+    Vector2D GetLocation() const { return Location; }
 
-    Vector2D GetSize() { return Size; }
+    Vector2D GetSize() const { return Size; }
 
-    void SetLocation(float X = 200.0f, float Y = 200.0f) { Location = { X, Y }; }
+    void SetLocation(const float X = 200.0f, const float Y = 200.0f) { Location = { X, Y }; }
 
-    void SetColor(uint32_t LColor) { Color = LColor; }
+    void SetColor(const uint32_t LColor) { Color = LColor; }
 
-    uint32_t GetColor() { return Color; }
+    uint32_t GetColor() const { return Color; }
 
-    void Move(float dt, int screenWidth = 1024, float speed = 200.0f)
+    void Move(const float dt, const int screenWidth = 1024, const float speed = 200.0f)
     {
         if (Location.X < 50.0f)
             MovingRight = true;

@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <chrono>
 #include <vector>
-
+#include <thread>
 
 //how timer works
 // in a loop
@@ -17,14 +17,17 @@ void StartTimer(std::chrono::steady_clock::time_point &startTime)
     startTime = std::chrono::steady_clock::now(); //auto
 }
 
-bool DidTimerEnd(std::chrono::steady_clock::time_point startTime)
+bool DidTimerEnd(const std::chrono::steady_clock::time_point startTime, const std::chrono::milliseconds time)
 {
     using namespace std::chrono_literals;
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::seconds>(now - startTime) >= 1s)
+    if (std::chrono::duration_cast<std::chrono::seconds>(now - startTime) >= time)
     {
         return true;
     }
+
+    //std::this_thread::sleep_for(10ns);
+
     return false;
 }
 
@@ -38,6 +41,12 @@ uint32_t MakeColor(uint8_t r, uint8_t g, uint8_t b)
 struct Vector2D
 {
     float X, Y;
+
+    Vector2D(float X, float Y)
+        : X(X), Y(Y)
+    {
+
+    }
 };
 
 bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
@@ -62,7 +71,7 @@ bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
 class ProjectileComponent
 {
 private:
-    std::vector< Vector2D> projectilesLocation;
+    std::vector<Vector2D> projectilesLocation;
     Vector2D Size;
     uint32_t Color;
     std::chrono::steady_clock::time_point startTime;
@@ -73,20 +82,30 @@ public:
     ProjectileComponent(bool UpDirection = true,Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = MakeColor(255, 0, 255))
         : UpDirection(UpDirection), Size(ProjectileSize), Color(Color)
     {
-
+        projectilesLocation.reserve(20);
     }
 
-    void Shoot(Vector2D Location, float width)
+    std::vector<Vector2D> GetProjectilesLocation() { return projectilesLocation; }
+
+    Vector2D GetSize()const { return Size; }
+
+    void Shoot(const Vector2D Location, const float width)
     {
-        if (DidTimerEnd(startTime))
+        if (DidTimerEnd(startTime, std::chrono::milliseconds(50)))
         {
-            projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
+            //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
+            projectilesLocation.emplace_back(Location.X + width / 2 - Size.X / 2, Location.Y - 3.f);
             StartTimer(startTime);
         }
 
     }
 
-    void ProjMove(float dt)
+    void EraseProjectile(const int i)
+    {
+        projectilesLocation.erase(projectilesLocation.begin() + i);
+    }
+
+    void ProjMove(const float dt)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
         {
@@ -107,7 +126,7 @@ public:
 
     void ProjDraw()
     {
-        for (Vector2D proj : projectilesLocation)
+        for (Vector2D &proj : projectilesLocation)
         {
             for (int x = 0; x < SCREEN_WIDTH; x++)
                 for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -126,7 +145,7 @@ public:
 
     }
 
-    void CollisionRect(int8_t &EnemyHealth, uint8_t Damage, bool &isAlive, Vector2D EnemyLocation, Vector2D EnemySize)
+    void CollisionRect(int8_t &EnemyHealth, const uint8_t Damage, bool &isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
         {
@@ -134,12 +153,29 @@ public:
                 projectilesLocation.at(i).X, projectilesLocation.at(i).Y, Size.X, Size.Y))
             {
                 EnemyHealth -= Damage;
-                projectilesLocation.erase(projectilesLocation.begin() + i);
+                EraseProjectile(i);
                 if (EnemyHealth <= 0)
                 {
                     isAlive = false;
                 }
             }
+        }
+    }
+
+    void CollisionProj(ProjectileComponent &proj)
+    {
+        for (int i = 0; i < projectilesLocation.size(); i++)
+        {
+            for (int j = 0; j < proj.projectilesLocation.size(); j++)
+            {
+                if (RectRectCollision(proj.projectilesLocation.at(j).X, proj.projectilesLocation.at(j).Y, proj.GetSize().X, proj.GetSize().Y,
+                    projectilesLocation.at(i).X, projectilesLocation.at(i).Y, Size.X, Size.Y))
+                {
+                    EraseProjectile(i);
+                    proj.EraseProjectile(j);
+                }
+            }
+            
         }
     }
 };
