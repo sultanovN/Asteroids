@@ -12,22 +12,19 @@
 //    StartTimer(startTime);
 //}
 
-void StartTimer(std::chrono::steady_clock::time_point &startTime)
+void StartTimer(std::chrono::steady_clock::time_point& startTime)
 {
     startTime = std::chrono::steady_clock::now(); //auto
 }
 
-bool DidTimerEnd(const std::chrono::steady_clock::time_point startTime, const std::chrono::milliseconds time)
+bool DidTimerEnd(const std::chrono::steady_clock::time_point& startTime, const std::chrono::milliseconds time)
 {
     using namespace std::chrono_literals;
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-    if (std::chrono::duration_cast<std::chrono::seconds>(now - startTime) >= time)
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime) >= time)
     {
         return true;
     }
-
-    //std::this_thread::sleep_for(10ns);
-
     return false;
 }
 
@@ -89,9 +86,10 @@ public:
 
     Vector2D GetSize()const { return Size; }
 
-    void Shoot(const Vector2D Location, const float width)
+    // launching projectile at the location, with milliseconds delay
+    void Shoot(const Vector2D Location, const float width, const std::chrono::milliseconds time)
     {
-        if (DidTimerEnd(startTime, std::chrono::milliseconds(50)))
+        if (DidTimerEnd(startTime, time))
         {
             //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
             projectilesLocation.emplace_back(Location.X + width / 2 - Size.X / 2, Location.Y - 3.f);

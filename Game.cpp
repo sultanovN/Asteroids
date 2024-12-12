@@ -7,13 +7,17 @@
 
 
 //
-// enemy respawn
+// enemy smooth spawn, moving forward +-
 // text render
 // health visual
-// levels
+// levels +-
 // 
+// different types of enemies
 // 
-//
+// laser attack, follows player, stops for attack
+// 
+
+
 
 //  You are free to modify this file
 //
@@ -31,12 +35,57 @@
 
 Player player;
 std::vector<Enemy> enemy;
-
 //std::vector<ProjectileComponent> Rocks;
 //Enemy enemy[3];
-bool EnemyLines[3] = { 1, 1, 1 };
+bool EnemyLines[3];
+
+
+
+int8_t level = 1;
+
+void level1()
+{
+    enemy = { {{100.0f, -100.0f}}, {{200.0f, -200.0f}}, {{300.0f, -300.0f}}};
+}
+
+void level2()
+{
+    enemy = { {{100.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, {{200.0f, -200.0f}, 1, MakeColor(0, 0, 255)}, {{300.0f, -300.0f}}, {{400.0f, -400.0f}}};
+}
+
+//level1
+void levelChange()
+{
+    if (enemy.empty())
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            EnemyLines[j] = true;
+        }
+        level++;
+
+        switch (level)
+        {
+        case 1:
+            level1();
+            break;
+        case 2:
+            level2();
+            break;
+        default:
+            level2();
+            break;
+        }
+    }
+
+}
+
+
+
+
+
 //
-//void EnemySpawn(std::vector<Enemy> enemy, int enemyNum, bool lines[], int linesNum)
+//void EnemySpawn(std::vector<Enemy> enemy, bool lines[], int linesNum)
 //{
 //    for (int i = 0; i < enemy.size(); i++)
 //    {
@@ -45,6 +94,8 @@ bool EnemyLines[3] = { 1, 1, 1 };
 //            if (lines[j])
 //            {
 //                enemy.at(i).SetLocation(200.0f * (i + 1), 10.0f * (j + 1));
+//                if(enemy.at(i).GetLocation().Y < 10.0f * (j + 1))
+//                    enemy.at(i).SetLocation(200.0f * (i + 1), 10.0f + speed * dt;
 //                lines[j] = false;
 //            }
 //        }
@@ -56,71 +107,27 @@ void initialize()
 {
     player = Player{};
     enemy.reserve(6);
-    enemy = { {{100.0f, 100.0f} }, {{200.0f, 200.0f}}, {{400.0f, 400.0f}}};
-    //EnemySpawn(enemy, 3, EnemyLines, 3);
+    enemy = { {{100.0f, -100.0f}, 1 }, {{200.0f, -200.0f}, 2}, {{400.0f, -400.0f}, 3}};
+    //EnemySpawn(enemy, EnemyLines, 3);
+
+    for (int j = 0; j < 3; j++)
+    {
+        EnemyLines[j] = true;
+    }
 }
 
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
-    if (!player.GetIsAlive())
-    {
-        while (1)
-        {
-            if (is_key_pressed(VK_SPACE))
-            {
-                player.isAlive = true;
-                initialize();
-                break;
-            }
-
-            if (is_key_pressed(VK_ESCAPE))
-            {
-                schedule_quit_game();
-            }
-        }
-    }
-
-    if (is_key_pressed(VK_ESCAPE))
-    {
-        schedule_quit_game();
-    }
-
-    if (is_key_pressed(VK_RIGHT) && (player.GetLocation().X + player.GetSize().X < SCREEN_WIDTH))
-    {
-        player.SetLocation(player.GetLocation().X + 400.f * dt, player.GetLocation().Y);
-    }
-
-    if (is_key_pressed(VK_LEFT) && (player.GetLocation().X > 0))
-    {
-        player.SetLocation(player.GetLocation().X - 400.f * dt, player.GetLocation().Y);
-    }
-
-    if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
-    {
-        player.ProjectileComponent.Shoot(player.GetLocation(), player.GetSize().X);
-    }
+    player.Control(dt);
 
     player.ProjectileComponent.ProjMove(dt);
 
-    if ((is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN)) && !player.MouseMode)
-    {
-        player.MouseMode = true;
-    }
-    
-    if(is_key_pressed(VK_RETURN) && player.MouseMode)
-        player.MouseMode = false;
-
-    if (player.MouseMode && (get_cursor_x() < (SCREEN_WIDTH - player.GetSize().X/2) && (get_cursor_x() > 0)))
-    {
-        player.SetLocation(get_cursor_x() + 400.f * dt, player.GetLocation().Y);
-    }
-
     for (int i = 0; i < enemy.size(); i++)
     {
-        enemy.at(i).Move(dt, SCREEN_WIDTH);
-        enemy.at(i).ProjComponent.Shoot(enemy.at(i).GetLocation(), enemy.at(i).GetSize().X);
+        enemy.at(i).Move(dt, EnemyLines, 3,SCREEN_WIDTH);
+        enemy.at(i).ProjComponent.Shoot(enemy.at(i).GetLocation(), enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
         enemy.at(i).ProjComponent.ProjMove(dt);
         player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
             enemy.at(i).GetLocation(), enemy.at(i).GetSize());
@@ -136,6 +143,8 @@ void act(float dt)
         }
 
     }
+
+    levelChange();
 
 
 }

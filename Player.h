@@ -13,7 +13,7 @@ private:
 
 public:
 
-    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 3,
+    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 100,
         uint32_t Color = MakeColor(125, 0, 125), bool MouseMode = false)
         : Location(Location), Size(Size), Health(Health), Color(Color), MouseMode(MouseMode)
     {
@@ -24,6 +24,63 @@ public:
     int8_t Health;
     bool isAlive = true;
     bool MouseMode = false;
+
+    void Control(float dt)
+    {
+        if (!GetIsAlive())
+        {
+            while (1)
+            {
+                if (is_key_pressed(VK_SPACE))
+                {
+                    isAlive = true;
+                    initialize();
+                    break;
+                }
+
+                if (is_key_pressed(VK_ESCAPE))
+                {
+                    schedule_quit_game();
+                }
+            }
+        }
+
+        if (is_key_pressed(VK_ESCAPE))
+        {
+            schedule_quit_game();
+        }
+
+        if (is_key_pressed(VK_RIGHT) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))
+        {
+            SetLocation(GetLocation().X + 400.f * dt, GetLocation().Y);
+        }
+
+        if (is_key_pressed(VK_LEFT) && (GetLocation().X > 0))
+        {
+            SetLocation(GetLocation().X - 400.f * dt, GetLocation().Y);
+        }
+
+        if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
+        {
+            ProjectileComponent.Shoot(GetLocation(), GetSize().X, std::chrono::milliseconds(500));
+        }
+
+
+        if ((is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN)) && !MouseMode)
+        {
+            MouseMode = true;
+        }
+
+        if (is_key_pressed(VK_RETURN) && MouseMode)
+            MouseMode = false;
+
+        if (MouseMode && (get_cursor_x() < (SCREEN_WIDTH - GetSize().X / 2) && (get_cursor_x() > 0)))
+        {
+            SetLocation(get_cursor_x() + 400.f * dt, GetLocation().Y);
+        }
+    }
+
+    
 
     Vector2D GetLocation() const { return Location; }
 
