@@ -12,7 +12,12 @@
 // health visual
 // levels +-
 // 
+// enums
+// std::map
+// 
 // different types of enemies
+// 
+// enemy that follows the player
 // 
 // laser attack, follows player, stops for attack
 // 
@@ -31,6 +36,19 @@
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
 
+bool GameStarted = false;
+
+Vector2D StartGameSize{ 600.f, 150.f };
+Vector2D StartGameLocation{ SCREEN_WIDTH/2.f - StartGameSize.X/2.f, SCREEN_HEIGHT/2.f - StartGameSize.Y / 2.f };
+
+void Interface()
+{
+    if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0, 
+        StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+    {
+        GameStarted = true;
+    }
+}
 
 
 Player player;
@@ -45,12 +63,12 @@ int8_t level = 1;
 
 void level1()
 {
-    enemy = { {{100.0f, -100.0f}}, {{200.0f, -200.0f}}, {{300.0f, -300.0f}}};
+    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}}};
 }
 
 void level2()
 {
-    enemy = { {{100.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, {{200.0f, -200.0f}, 1, MakeColor(0, 0, 255)}, {{300.0f, -300.0f}}, {{400.0f, -400.0f}}};
+    enemy = { {{30.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, {{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)}, {{500.0f, -300.0f}}, {{900.0f, -400.0f}}};
 }
 
 //level1
@@ -82,32 +100,12 @@ void levelChange()
 
 
 
-
-
-//
-//void EnemySpawn(std::vector<Enemy> enemy, bool lines[], int linesNum)
-//{
-//    for (int i = 0; i < enemy.size(); i++)
-//    {
-//        for (int j = 0; j < linesNum; j++)
-//        {
-//            if (lines[j])
-//            {
-//                enemy.at(i).SetLocation(200.0f * (i + 1), 10.0f * (j + 1));
-//                if(enemy.at(i).GetLocation().Y < 10.0f * (j + 1))
-//                    enemy.at(i).SetLocation(200.0f * (i + 1), 10.0f + speed * dt;
-//                lines[j] = false;
-//            }
-//        }
-//    }
-//}
-
 // initialize game data in this function
 void initialize()
 {
     player = Player{};
     enemy.reserve(6);
-    enemy = { {{100.0f, -100.0f}, 1 }, {{200.0f, -200.0f}, 2}, {{400.0f, -400.0f}, 3}};
+    level1();
     //EnemySpawn(enemy, EnemyLines, 3);
 
     for (int j = 0; j < 3; j++)
@@ -120,33 +118,36 @@ void initialize()
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
-    player.Control(dt);
+    Interface();
 
-    player.ProjectileComponent.ProjMove(dt);
-
-    for (int i = 0; i < enemy.size(); i++)
+    if (GameStarted)
     {
-        enemy.at(i).Move(dt, EnemyLines, 3,SCREEN_WIDTH);
-        enemy.at(i).ProjComponent.Shoot(enemy.at(i).GetLocation(), enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
-        enemy.at(i).ProjComponent.ProjMove(dt);
-        player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
-            enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+        player.Control(dt);
 
-        enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+        player.ProjectileComponent.ProjMove(dt);
 
-        //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
-
-        if (!enemy.at(i).isAlive)
+        for (int i = 0; i < enemy.size(); i++)
         {
-            enemy.erase(enemy.begin() + i);
-            //enemy[i].SetColor(MakeColor(0, 0, 0));
+            enemy.at(i).Move(dt, EnemyLines, 3, SCREEN_WIDTH);
+            enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f}, enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
+            enemy.at(i).ProjComponent.ProjMove(dt);
+            player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
+                enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+
+            enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+
+            //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
+
+            if (!enemy.at(i).isAlive)
+            {
+                enemy.erase(enemy.begin() + i);
+                //enemy[i].SetColor(MakeColor(0, 0, 0));
+            }
+
         }
 
+        levelChange();
     }
-
-    levelChange();
-
-
 }
 
 
@@ -177,19 +178,36 @@ void draw()
             buffer[y][x] = MakeColor(255, 255, 230);
         }
 
-    objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
-        player.GetSize().Y, player.GetColor());
-    player.ProjectileComponent.ProjDraw();
 
-
-    for (int i = 0; i < enemy.size(); i++)
+    if (GameStarted)
     {
-        objectDraw(enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y, enemy.at(i).GetSize().X,
-            enemy.at(i).GetSize().Y, enemy.at(i).GetColor());
-        enemy.at(i).ProjComponent.ProjDraw();
+        objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
+            player.GetSize().Y, player.GetColor());
+        player.ProjectileComponent.ProjDraw();
+
+
+        for (int i = 0; i < enemy.size(); i++)
+        {
+            objectDraw(enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y, enemy.at(i).GetSize().X,
+                enemy.at(i).GetSize().Y, enemy.at(i).GetColor());
+            enemy.at(i).ProjComponent.ProjDraw();
+
+        }
+    }
+    else
+    {
+        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
+        }
+        else
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
+
+        }
 
     }
-    
 }
 
 // free game data in this function

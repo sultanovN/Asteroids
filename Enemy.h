@@ -82,3 +82,28 @@ public:
 
     
 };
+
+//class Follower: public Enemy
+//{
+//private:
+//    Vector2D Location;
+//    Vector2D Size;
+//    //bool alive;
+//    uint32_t Color;
+//    uint32_t ProjColor;
+//    bool MovingRight = true;
+//    bool MovingDown = true;
+//
+//public:
+//
+//    Follower(Vector2D Location = { 500.0f, 500.0f }, int8_t Health = 1,
+//        uint32_t Color = MakeColor(255, 0, 0), Vector2D Size = { 40.f, 50.f }, uint32_t ProjColor = MakeColor(255, 0, 0))
+//        : Location(Location), Size(Size), Health(Health), Color(Color), ProjColor(ProjColor)
+//    {
+//    }
+//
+//    ProjectileComponent ProjComponent{ false, {10.f, 10.f}, ProjColor };
+//    //HealthComponent HealthComp;
+//    int8_t Health;
+//    bool isAlive = true;
+//};

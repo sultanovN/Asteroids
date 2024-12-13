@@ -79,7 +79,7 @@ public:
     ProjectileComponent(bool UpDirection = true,Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = MakeColor(255, 0, 255))
         : UpDirection(UpDirection), Size(ProjectileSize), Color(Color)
     {
-        projectilesLocation.reserve(20);
+        projectilesLocation.reserve(18);
     }
 
     std::vector<Vector2D> GetProjectilesLocation() { return projectilesLocation; }
