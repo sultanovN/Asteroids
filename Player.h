@@ -13,7 +13,7 @@ private:
 
 public:
 
-    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 100,
+    Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 3,
         uint32_t Color = MakeColor(125, 0, 125), bool MouseMode = false)
         : Location(Location), Size(Size), Health(Health), Color(Color), MouseMode(MouseMode)
     {
@@ -29,25 +29,25 @@ public:
     {
         if (!GetIsAlive())
         {
-            while (1)
-            {
-                if (is_key_pressed(VK_SPACE))
-                {
-                    isAlive = true;
-                    initialize();
-                    break;
-                }
+            GameMode = Inter::Menu;
 
-                if (is_key_pressed(VK_ESCAPE))
-                {
-                    schedule_quit_game();
-                }
+            if (is_key_pressed(VK_SPACE))
+            {
+
+                isAlive = true;
+                initialize();
+            }
+
+            if (is_key_pressed(VK_ESCAPE))
+            {
+                schedule_quit_game();
             }
         }
 
         if (is_key_pressed(VK_ESCAPE))
         {
-            schedule_quit_game();
+            GameMode = Inter::PauseMenu;
+            //schedule_quit_game();
         }
 
         if (is_key_pressed(VK_RIGHT) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))

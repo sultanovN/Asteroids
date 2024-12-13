@@ -12,6 +12,16 @@
 //    StartTimer(startTime);
 //}
 
+enum class Inter
+{
+    Menu,
+    Game,
+    PauseMenu
+};
+
+Inter GameMode = Inter::Menu;
+
+
 void StartTimer(std::chrono::steady_clock::time_point& startTime)
 {
     startTime = std::chrono::steady_clock::now(); //auto

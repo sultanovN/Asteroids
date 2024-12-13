@@ -15,11 +15,17 @@
 // enums
 // std::map
 // 
+// player changes color when hit
+// 
+// interface with enums
+// 
 // different types of enemies
 // 
 // enemy that follows the player
 // 
 // laser attack, follows player, stops for attack
+// 
+// button hover function
 // 
 
 
@@ -36,20 +42,26 @@
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
 
-bool GameStarted = false;
+
 
 Vector2D StartGameSize{ 600.f, 150.f };
-Vector2D StartGameLocation{ SCREEN_WIDTH/2.f - StartGameSize.X/2.f, SCREEN_HEIGHT/2.f - StartGameSize.Y / 2.f };
+Vector2D StartGameLocation{ SCREEN_WIDTH/2.f - StartGameSize.X/2.f, SCREEN_HEIGHT/2.f - StartGameSize.Y / 2.f - 100.f };
 
-void Interface()
+
+void StartGameInterface()
 {
     if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0, 
         StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
     {
-        GameStarted = true;
+        initialize();
+        GameMode = Inter::Game;
+    }
+    else if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+    {
+        schedule_quit_game();
     }
 }
-
 
 Player player;
 std::vector<Enemy> enemy;
@@ -118,36 +130,58 @@ void initialize()
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
-    Interface();
-
-    if (GameStarted)
+    switch (GameMode)
     {
-        player.Control(dt);
-
-        player.ProjectileComponent.ProjMove(dt);
-
-        for (int i = 0; i < enemy.size(); i++)
+    case Inter::Menu:
+        StartGameInterface();
+        break;
+    case Inter::Game:
+        if (GameMode == Inter::Game)
         {
-            enemy.at(i).Move(dt, EnemyLines, 3, SCREEN_WIDTH);
-            enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f}, enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
-            enemy.at(i).ProjComponent.ProjMove(dt);
-            player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
-                enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+            player.Control(dt);
 
-            enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+            player.ProjectileComponent.ProjMove(dt);
 
-            //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
-
-            if (!enemy.at(i).isAlive)
+            for (int i = 0; i < enemy.size(); i++)
             {
-                enemy.erase(enemy.begin() + i);
-                //enemy[i].SetColor(MakeColor(0, 0, 0));
+                enemy.at(i).Move(dt, EnemyLines, 3, SCREEN_WIDTH);
+                enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f }, enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
+                enemy.at(i).ProjComponent.ProjMove(dt);
+                player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
+                    enemy.at(i).GetLocation(), enemy.at(i).GetSize());
+
+                enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+
+                //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
+
+                if (!enemy.at(i).isAlive)
+                {
+                    enemy.erase(enemy.begin() + i);
+                    //enemy[i].SetColor(MakeColor(0, 0, 0));
+                }
+
             }
 
+            levelChange();
         }
-
-        levelChange();
+        break;
+    case Inter::PauseMenu:
+        if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        {
+            GameMode = Inter::Game;
+        }
+        else if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        {
+            schedule_quit_game();
+        }
+        break;
+    default:
+        break;
     }
+
+    
 }
 
 
@@ -178,8 +212,9 @@ void draw()
             buffer[y][x] = MakeColor(255, 255, 230);
         }
 
-
-    if (GameStarted)
+    switch (GameMode)
+    {
+    case Inter::Game:
     {
         objectDraw(player.GetLocation().X, player.GetLocation().Y, player.GetSize().X,
             player.GetSize().Y, player.GetColor());
@@ -193,8 +228,9 @@ void draw()
             enemy.at(i).ProjComponent.ProjDraw();
 
         }
+        break;
     }
-    else
+    case Inter::Menu:
     {
         if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
             StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
@@ -207,7 +243,54 @@ void draw()
 
         }
 
+        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
+        }
+        else
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
+
+        }
+        break;
     }
+    case Inter::PauseMenu:
+    {
+        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
+        }
+        else
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
+
+        }
+
+        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
+        }
+        else
+        {
+            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
+
+        }
+        break;
+    }
+    }
+
+    /*if (GameStarted)
+    {
+        
+    }
+    else
+    {
+        
+
+    }*/
 }
 
 // free game data in this function
