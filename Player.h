@@ -25,6 +25,7 @@ public:
     bool isAlive = true;
     bool MouseMode = false;
 
+
     void Control(float dt)
     {
         if (!GetIsAlive())
@@ -62,7 +63,7 @@ public:
 
         if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
         {
-            ProjectileComponent.Shoot(GetLocation(), GetSize().X, std::chrono::milliseconds(500));
+            ProjectileComponent.Shoot(GetLocation(), GetSize().X, std::chrono::milliseconds(300));
         }
 
 

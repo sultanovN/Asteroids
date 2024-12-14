@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "LaserEnemy.h"
 
 
 //
@@ -19,13 +20,15 @@
 // 
 // interface with enums
 // 
-// different types of enemies
+// --different types of enemies
 // 
-// enemy that follows the player
+// --enemy that follows the player
 // 
-// laser attack, follows player, stops for attack
+// --laser attack, follows player, stops for attack
 // 
 // button hover function
+// 
+// drawing objects in one
 // 
 
 
@@ -47,17 +50,30 @@
 Vector2D StartGameSize{ 600.f, 150.f };
 Vector2D StartGameLocation{ SCREEN_WIDTH/2.f - StartGameSize.X/2.f, SCREEN_HEIGHT/2.f - StartGameSize.Y / 2.f - 100.f };
 
+void ButtonSelect()
+{
+    if ((RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+        StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y)) || is_key_pressed(VK_UP))
+    {
+        button = Button::First;
+    }
+
+
+    if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
+        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y) || is_key_pressed(VK_DOWN))
+    {
+        button = Button::Second;
+    }
+}
 
 void StartGameInterface()
 {
-    if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0, 
-        StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+    if (button == Button::First && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
     {
         initialize();
         GameMode = Inter::Game;
     }
-    else if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+    else if (button == Button::Second && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
     {
         schedule_quit_game();
     }
@@ -70,7 +86,6 @@ std::vector<Enemy> enemy;
 bool EnemyLines[3];
 
 
-
 int8_t level = 1;
 
 void level1()
@@ -80,7 +95,10 @@ void level1()
 
 void level2()
 {
-    enemy = { {{30.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, {{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)}, {{500.0f, -300.0f}}, {{900.0f, -400.0f}}};
+    enemy = { {{30.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, {{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)},
+        {{500.0f, -300.0f}}};
+    /*LaserEnemy Laser = { player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
+        MakeColor(0, 0, 200), 100.f, false};*/
 }
 
 //level1
@@ -134,19 +152,21 @@ void act(float dt)
     {
     case Inter::Menu:
         StartGameInterface();
+        ButtonSelect();
         break;
     case Inter::Game:
         if (GameMode == Inter::Game)
         {
             player.Control(dt);
 
-            player.ProjectileComponent.ProjMove(dt);
+            player.ProjectileComponent.ProjMove(dt, 500.f);
 
             for (int i = 0; i < enemy.size(); i++)
             {
                 enemy.at(i).Move(dt, EnemyLines, 3, SCREEN_WIDTH);
-                enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f }, enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
-                enemy.at(i).ProjComponent.ProjMove(dt);
+                enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f }, 
+                    enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
+                enemy.at(i).ProjComponent.ProjMove(dt, -500.f);
                 player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
                     enemy.at(i).GetLocation(), enemy.at(i).GetSize());
 
@@ -166,16 +186,16 @@ void act(float dt)
         }
         break;
     case Inter::PauseMenu:
-        if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        if (button == Button::First && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
         {
             GameMode = Inter::Game;
         }
-        else if (is_mouse_button_pressed(0) && RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        else if (button == Button::Second && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
         {
             schedule_quit_game();
         }
+        ButtonSelect();
+
         break;
     default:
         break;
@@ -185,17 +205,7 @@ void act(float dt)
 }
 
 
-const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
-{
-    for (int x = 0; x < SCREEN_WIDTH; x++)
-        for (int y = 0; y < SCREEN_HEIGHT; y++)
-        {
-            if ((x >= X && (x <= X + width)) && (y >= Y && (y <= Y + height)))
-            {
-                buffer[y][x] = objectColor;
-            }
-        }
-}
+
 
 
 // fill buffer in this function
@@ -232,8 +242,7 @@ void draw()
     }
     case Inter::Menu:
     {
-        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        if (button == Button::First)
         {
             objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
         }
@@ -243,8 +252,7 @@ void draw()
 
         }
 
-        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        if (button == Button::Second)
         {
             objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
         }
@@ -257,8 +265,7 @@ void draw()
     }
     case Inter::PauseMenu:
     {
-        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y))
+        if (button == Button::First)
         {
             objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
         }
@@ -268,8 +275,7 @@ void draw()
 
         }
 
-        if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-            StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y))
+        if (button == Button::Second)
         {
             objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
         }
