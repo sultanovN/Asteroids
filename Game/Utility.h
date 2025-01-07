@@ -3,8 +3,18 @@
 #include <chrono>
 #include <vector>
 #include <thread>
+#include <random>
 
+std::random_device randDev;
+std::mt19937 gen(randDev());
 
+int RandomNumberInRange(int min, int max)
+{
+    std::uniform_int_distribution<> distrib(min, max);
+    return distrib(gen);
+}
+
+class HealthComponent;
 
 const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
 {
@@ -22,19 +32,24 @@ enum class Inter
 {
     Menu,
     Game,
-    PauseMenu
+    PauseMenu,
+    GameOver,
+    LevelSelect,
+    GameCompleted,
 };
 
 enum class Button
 {
-    First,
+    Start,
     Second,
-    Three //level select
+    Exit //level select
 };
 
 Inter GameMode = Inter::Menu;
 
-Button button = Button::First;
+Button button = Button::Start;
+
+
 
 //how timer works
 // in a loop
@@ -104,11 +119,13 @@ private:
     Vector2D Size;
     uint32_t Color;
     std::chrono::steady_clock::time_point startTime;
+
+
     //bool UpDirection;
 
 public:
 
-    ProjectileComponent(Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = MakeColor(255, 0, 255))
+    ProjectileComponent(Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = MakeColor(255, 0, 255), Vector2D Destination = {0.f, 0.f})
         :  Size(ProjectileSize), Color(Color)
     {
         projectilesLocation.reserve(18);
@@ -176,7 +193,7 @@ public:
 
     }
 
-    void CollisionRect(int8_t &EnemyHealth, const uint8_t Damage, bool &isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize)
+    void CollisionRect( int8_t &EnemyHealth, const uint8_t Damage, bool& isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
         {
@@ -184,14 +201,36 @@ public:
                 projectilesLocation.at(i).X, projectilesLocation.at(i).Y, Size.X, Size.Y))
             {
                 EnemyHealth -= Damage;
+
+                
                 EraseProjectile(i);
                 if (EnemyHealth <= 0)
                 {
                     isAlive = false;
                 }
+                
+
+
             }
         }
     }
+
+    /*if (DidTimerEnd(color, std::chrono::milliseconds(1000)))
+    {
+        StartTimer(now);
+
+        if (shot)
+        {
+            EnemyColor = MakeColor(200, 0, 0);
+            shot = false;
+        }
+        else
+        {
+            EnemyColor = MakeColor(200, 0, 200);
+            shot = true;
+
+        }
+    }*/
 
     void CollisionProj(ProjectileComponent &proj)
     {
@@ -209,6 +248,42 @@ public:
             
         }
     }
+};
+
+enum class EBonusTypes
+{
+    Health,
+    ProjectileFreq,
+    ProjectileSpeed,
+    TwoProjectileShoot,
+};
+
+//Bonus will appear with the death of enemy at his place and slowly fall down
+class Bonus
+{
+    Vector2D Location;
+    Vector2D Size;
+    float speed;
+    EBonusTypes BonusType;
+
+public:
+    Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, float speed = 200.f, Vector2D Size = {30.f, 30.f})
+        : Location(Location), BonusType(BonusType), speed(speed), Size(Size)
+    {
+        //randomize bonus type
+    }
+
+    //temporary or constant till damage
+    
+    void Move(float dt)
+    { 
+        Location.Y += speed * dt;
+    }
+
+    EBonusTypes GetBonusType()const { return BonusType; }
+
+    Vector2D GetLocation() const { return Location; }
+    Vector2D GetSize() const { return Size; }
 };
 
 //class HealthComponent

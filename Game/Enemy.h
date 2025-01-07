@@ -22,6 +22,7 @@ public:
     {
     }
 
+    bool shot = false;
 
     ProjectileComponent ProjComponent{{10.f, 10.f}, ProjColor };
     //HealthComponent HealthComp;
@@ -37,7 +38,7 @@ public:
 
     void SetColor(const uint32_t LColor) { Color = LColor; }
 
-    uint32_t GetColor() const { return Color; }
+    uint32_t &GetColor() { return Color; }
 
     float GetSpeed()const { return Speed; }
 
@@ -66,7 +67,7 @@ public:
         }
     }
 
-    virtual void Move(const float dt, bool lines[], int linesNum, const int screenWidth = 1024)
+    virtual void Move(const float dt, bool lines[], int linesNum, const int screenWidth, float playerX)
     {
         if (Location.X < 50.0f)
             MovingRight = true;

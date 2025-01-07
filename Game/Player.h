@@ -7,6 +7,8 @@ private:
     Vector2D Location;
     Vector2D Size;
     uint32_t Color;
+    float ProjectileSpeed;
+    std::chrono::milliseconds projectilefrequency;
    // std::vector< Vector2D> projectilesLocation;
     //std::chrono::steady_clock::time_point startTime;
     //Vector2D ProjectileSize;
@@ -14,8 +16,10 @@ private:
 public:
 
     Player(Vector2D Location = { 500.0f, 600.0f }, Vector2D Size = { 50.f, 60.f }, int8_t Health = 3,
-        uint32_t Color = MakeColor(125, 0, 125), bool MouseMode = false)
-        : Location(Location), Size(Size), Health(Health), Color(Color), MouseMode(MouseMode)
+        uint32_t Color = MakeColor(125, 0, 125), bool MouseMode = false, float ProjectileSpeed = 500.f, 
+        std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
+        : Location(Location), Size(Size), Health(Health), Color(Color), MouseMode(MouseMode), 
+        projectilefrequency(projectilefrequency), ProjectileSpeed(ProjectileSpeed)
     {
     }
 
@@ -24,6 +28,7 @@ public:
     int8_t Health;
     bool isAlive = true;
     bool MouseMode = false;
+    int KillCount = 0;
 
 
     void Control(float dt)
@@ -63,7 +68,7 @@ public:
 
         if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
         {
-            ProjectileComponent.Shoot(GetLocation(), GetSize().X, std::chrono::milliseconds(300));
+            ProjectileComponent.Shoot(GetLocation(), GetSize().X, projectilefrequency);
         }
 
 
@@ -81,7 +86,44 @@ public:
         }
     }
 
+    bool BonusCollision(const Vector2D BonusLocation, const Vector2D BonusSize, const EBonusTypes BonusType)
+    {
+        if (RectRectCollision(Location.X, Location.Y, Size.X, Size.Y,
+            BonusLocation.X, BonusLocation.Y, BonusSize.X, BonusSize.Y))
+        {
+            BonusEffect(BonusType);
+            return true;
+        }
+        return false;
+    }
     
+    void BonusEffect(EBonusTypes BonusType)
+    {
+        switch (BonusType)
+        {
+        case EBonusTypes::Health:
+        {
+            Health++;
+            break;
+        }
+        case EBonusTypes::ProjectileFreq:
+        {
+            projectilefrequency = std::chrono::milliseconds(150);
+            break;
+        }
+        case EBonusTypes::ProjectileSpeed:
+        {
+            ProjectileSpeed *= 2.f;
+            break;
+        }
+        //case EBonusTypes::TwoProjectileShoot:
+        default:
+        {
+            Health++;
+            break;
+        }
+        }
+    }
 
     Vector2D GetLocation() const { return Location; }
 
@@ -91,7 +133,8 @@ public:
 
     void SetColor(const uint32_t LColor) { Color = LColor; }
 
-    uint32_t GetColor() const { return Color; }
+    uint32_t &GetColor() { return Color; }
     
     bool GetIsAlive() const { return isAlive; }
+    float GetProjectileSpeed() const { return ProjectileSpeed; }
 };
