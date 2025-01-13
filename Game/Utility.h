@@ -232,6 +232,7 @@ public:
         }
     }*/
 
+
     void CollisionProj(ProjectileComponent &proj)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
@@ -241,8 +242,9 @@ public:
                 if (RectRectCollision(proj.projectilesLocation.at(j).X, proj.projectilesLocation.at(j).Y, proj.GetSize().X, proj.GetSize().Y,
                     projectilesLocation.at(i).X, projectilesLocation.at(i).Y, Size.X, Size.Y))
                 {
-                    EraseProjectile(i);
                     proj.EraseProjectile(j);
+                    projectilesLocation.erase(projectilesLocation.begin() + i);
+
                 }
             }
             
@@ -265,10 +267,11 @@ class Bonus
     Vector2D Size;
     float speed;
     EBonusTypes BonusType;
+    uint32_t Color;
 
 public:
-    Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, float speed = 200.f, Vector2D Size = {30.f, 30.f})
-        : Location(Location), BonusType(BonusType), speed(speed), Size(Size)
+    Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, uint32_t Color = MakeColor(255, 0, 0), float speed = 200.f, Vector2D Size = {30.f, 30.f})
+        : Location(Location), BonusType(BonusType), Color(Color), speed(speed), Size(Size)
     {
         //randomize bonus type
     }
@@ -284,6 +287,7 @@ public:
 
     Vector2D GetLocation() const { return Location; }
     Vector2D GetSize() const { return Size; }
+    uint32_t GetColor() const { return Color; }
 };
 
 //class HealthComponent

@@ -103,23 +103,37 @@ public:
         {
         case EBonusTypes::Health:
         {
-            Health++;
+            if(Health < 3)
+                Health++;
             break;
         }
         case EBonusTypes::ProjectileFreq:
         {
-            projectilefrequency = std::chrono::milliseconds(150);
+            if (projectilefrequency > std::chrono::milliseconds(140))
+            {
+                projectilefrequency = std::chrono::milliseconds(150);
+                Color = MakeColor(0, 0, 255);
+            }
+            else if (Health < 3)
+                Health++;
             break;
         }
         case EBonusTypes::ProjectileSpeed:
         {
-            ProjectileSpeed *= 2.f;
+            if (ProjectileSpeed < 900.f)
+            {
+                ProjectileSpeed *= 2.f;
+                Color = MakeColor(0, 160, 200);
+            }
+            else if (Health < 3)
+                Health++;
             break;
         }
         //case EBonusTypes::TwoProjectileShoot:
         default:
         {
-            Health++;
+            if (Health < 3)
+                Health++;
             break;
         }
         }

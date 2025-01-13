@@ -11,7 +11,7 @@
 // text render
 // health visual
 // levels +-
-// 
+//   
 // enums
 // std::map
 // std::set
@@ -113,10 +113,15 @@ int8_t level = 1;
 
 void level1()
 {
-    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}}};
+    enemy = { {{30.0f, -100.0f}}, {{400.0f, -100.0f}}, {{1000.0f, -100.0f}}};
 }
 
 void level2()
+{
+    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}} };
+}
+
+void level3()
 {
     enemy = { {{30.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
         MakeColor(0, 0, 200), 100.f, false} };
@@ -145,6 +150,9 @@ void levelChange()
         case 2:
             level2();
             break;
+        case 3:
+            level3();
+            break;
         default:
             level2();
             break;
@@ -160,7 +168,7 @@ void initialize()
 {
     player = Player{};
     enemy.reserve(6);
-    level2();
+    level1();
     //EnemySpawn(enemy, EnemyLines, 3);
 
     for (int j = 0; j < 3; j++)
@@ -168,7 +176,7 @@ void initialize()
         EnemyLines[j] = true;
     }
 }
-
+ 
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
@@ -192,38 +200,47 @@ void act(float dt)
         {
             enemy.at(i).Move(dt, EnemyLines, 3, SCREEN_WIDTH, player.GetLocation().X);
             enemy.at(i).ProjComponent.Shoot({ enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y + enemy.at(i).GetSize().Y + 3.f },
-                enemy.at(i).GetSize().X, std::chrono::milliseconds(500));
-            enemy.at(i).ProjComponent.ProjMove(dt, -500.f);
+                enemy.at(i).GetSize().X, std::chrono::milliseconds(900));
+            enemy.at(i).ProjComponent.ProjMove(dt, -300.f);
+
             player.ProjectileComponent.CollisionRect(enemy.at(i).Health, 1, enemy.at(i).isAlive,
                 enemy.at(i).GetLocation(), enemy.at(i).GetSize());
 
             enemy.at(i).ProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(),
                 player.GetSize());
 
+            //exception at less than 400f enemy proj speed 
+            player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
             //player.ProjectileComponent.CollisionProj(enemy.at(i).ProjComponent);
 
             if (!enemy.at(i).isAlive)
             {
                 player.KillCount++;
                 //bonus roll chance of appearing
-                if (RandomNumberInRange(0, 9) == 1)
+                if (RandomNumberInRange(0, 1) == 1)
                 {
+                    //fix: other bonus if player already has it
                     EBonusTypes bonustype;
+                    uint32_t bonusColor;
                     switch (RandomNumberInRange(0, 2))
                     {
                     case 0:
                     {
                         bonustype = EBonusTypes::Health;
+                        bonusColor = MakeColor(255, 0, 0);
                         break;
                     }
                     case 1:
                     {
                         bonustype = EBonusTypes::ProjectileFreq;
+                        bonusColor = MakeColor(0, 100, 200);
                         break;
                     }
                     case 2:
                     {
                         bonustype = EBonusTypes::ProjectileSpeed;
+                        bonusColor = MakeColor(0, 200, 100);
+
                         break;
                     }
                     /*case 3:
@@ -233,7 +250,7 @@ void act(float dt)
                     }*/
                     }
 
-                    bonus.emplace_back(enemy.at(i).GetLocation(), bonustype);
+                    bonus.emplace_back(enemy.at(i).GetLocation(), bonustype, bonusColor);
                 }
                 
                 
@@ -338,7 +355,7 @@ void draw()
         for (int i = 0; i < bonus.size(); i++)
         {
             objectDraw(bonus.at(i).GetLocation().X, bonus.at(i).GetLocation().Y, bonus.at(i).GetSize().X,
-                bonus.at(i).GetSize().Y, MakeColor(255, 255, 0));
+                bonus.at(i).GetSize().Y, bonus.at(i).GetColor());
         }
 
         for (int i = 0; i < player.Health; i++)
