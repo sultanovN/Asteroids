@@ -1,18 +1,18 @@
-#include "Engine/Engine.h"
 #include <stdlib.h>
 #include <memory.h>
 
-#include "Player.h"
-#include "Enemy.h"
-#include "LaserEnemy.h"
+#include "Enemies/Enemy.h"
+#include "Enemies/LaserEnemy.h"
+#include "Player/Player.h"
 
-//
+
+//Goals:
+// 
 // enemy smooth spawn, moving forward +-
 // text render
 // health visual
 // levels +-
 //   
-// enums
 // std::map
 // std::set
 // multithreads
@@ -39,10 +39,17 @@
 // 
 // "freetype" text, font library
 // 
-
-
-
-
+// mouse press release function
+// 
+// ignoring mouse when using keyboard(when mouse is above button, keyboard control issue, 
+// save mouse location when opening menu or using keyboard, if it stays in place ignore, can be included to the game loop too)
+// 
+// engine data not visible to files when changing files structure
+// 
+// add static constexpr(one variable for all class instances, doesnt get copied for each class)
+// 
+// randomizer for enemies
+// 
 
 
 //  is_key_pressed(int button_vk_code) - check if a key is pressed,
@@ -64,20 +71,23 @@ Vector2D StartGameLocation{ SCREEN_WIDTH/2.f - StartGameSize.X/2.f, SCREEN_HEIGH
 void ButtonSelect()
 {
     if ((RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-        StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y)) || is_key_pressed(VK_UP))
+        StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y)) || 
+        is_key_pressed(VK_UP))
     {
         button = Button::Start;
     }
 
 
     if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y) || is_key_pressed(VK_DOWN))
+        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, 
+        StartGameSize.X, StartGameSize.Y) || is_key_pressed(VK_DOWN))
     {
         button = Button::Second;
     }
 
     if (RectRectCollision(get_cursor_x(), get_cursor_y(), 0, 0,
-        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y * 2 + 50.f + 50.f, StartGameSize.X, StartGameSize.Y) || is_key_pressed(VK_DOWN))
+        StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y * 2 + 50.f + 50.f, 
+        StartGameSize.X, StartGameSize.Y) || is_key_pressed(VK_DOWN))
     {
         button = Button::Exit;
     }
@@ -101,7 +111,8 @@ void StartGameInterface()
     }
 }
 
-Player player;
+Player player{ { 500.0f, 600.0f } , { 50.f, 60.f } , 3 , MakeColor(125, 0, 125) , 
+false , 500.f , std::chrono::milliseconds(300) };
 std::vector<Enemy> enemy;
 //std::vector<ProjectileComponent> Rocks;
 //Enemy enemy[3];
@@ -123,7 +134,7 @@ void level2()
 
 void level3()
 {
-    enemy = { {{30.0f, -100.0f}, 2, MakeColor(0, 255, 0)}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
+    enemy = { {{30.0f, -100.0f}}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
         MakeColor(0, 0, 200), 100.f, false} };
     /*LaserEnemy Laser = { player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
         MakeColor(0, 0, 200), 100.f, false};{900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
@@ -166,7 +177,8 @@ void levelChange()
 // initialize game data in this function
 void initialize()
 {
-    player = Player{};
+    player = Player{ { 500.0f, 600.0f } , { 50.f, 60.f } , 3 , MakeColor(125, 0, 125) ,
+false , 500.f , std::chrono::milliseconds(300) };;
     enemy.reserve(6);
     level1();
     //EnemySpawn(enemy, EnemyLines, 3);
@@ -344,7 +356,6 @@ void draw()
             player.GetSize().Y, player.GetColor());
         player.ProjectileComponent.ProjDraw();
 
-
         for (int i = 0; i < enemy.size(); i++)
         {
             objectDraw(enemy.at(i).GetLocation().X, enemy.at(i).GetLocation().Y, enemy.at(i).GetSize().X,
@@ -352,6 +363,9 @@ void draw()
             enemy.at(i).ProjComponent.ProjDraw();
 
         }
+
+        //objectDraw(, { 40.f, 50.f }, Colors::Red);
+
         for (int i = 0; i < bonus.size(); i++)
         {
             objectDraw(bonus.at(i).GetLocation().X, bonus.at(i).GetLocation().Y, bonus.at(i).GetSize().X,
@@ -367,83 +381,16 @@ void draw()
     }
     case Inter::Menu:
     {
-        if (button == Button::Start)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
-
-        if (button == Button::Second)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
-
-        if (button == Button::Exit)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y + 50.f) * 2, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y  + 50.f) * 2, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
+        objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, Colors::Red);
+        //objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
+        objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y  + 50.f) * 2, StartGameSize.X, StartGameSize.Y, Colors::Red);
         break;
     }
     case Inter::PauseMenu:
     {
-        if (button == Button::Start)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
-
-        if (button == Button::Exit)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y + 50.f) * 2, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y + 50.f) * 2, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
+        objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, Colors::Red);
+        objectDraw(StartGameLocation.X, StartGameLocation.Y + (StartGameSize.Y + 50.f) * 2, StartGameSize.X, StartGameSize.Y, Colors::Red);
         break;
-    }
-    case Inter::LevelSelect:
-    {
-        if (button == Button::Start)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
-
-        if (button == Button::Second)
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(200, 0, 0));
-        }
-        else
-        {
-            objectDraw(StartGameLocation.X, StartGameLocation.Y + StartGameSize.Y + 50.f, StartGameSize.X, StartGameSize.Y, MakeColor(255, 0, 0));
-
-        }
-
-        
     }
     }
 

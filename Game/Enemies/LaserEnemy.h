@@ -12,7 +12,7 @@ private:
 public:
     LaserEnemy(float PlayerXLocation, Vector2D Location = { 500.0f, 500.0f }, int8_t Health = 4, uint32_t Color = MakeColor(0, 0, 190),
         Vector2D Size = { 60.f, 40.f }, uint32_t ProjColor = MakeColor(0, 0, 200), float Speed = 200.f, bool MovingRight = false)
-        : Enemy(Location, Health, Color, Size, ProjColor, Speed, MovingRight), PlayerXLocation(PlayerXLocation)
+        : Enemy(Location, Size, Speed, Color, Health, ProjColor, MovingRight), PlayerXLocation(PlayerXLocation)
     {
         Size = { 100.f, 40.f };
     }
@@ -27,11 +27,11 @@ public:
 
         if (GetMovingRight())
         {
-            SetXLocation(GetLocation().X - GetSpeed() * dt);
+            SetLocation(GetLocation().X - GetSpeed() * dt, GetLocation().Y);
         }
         else
         {
-            SetXLocation(GetLocation().X - GetSpeed() * dt);
+            SetLocation(GetLocation().X - GetSpeed() * dt, GetLocation().Y);
         }
 
         LineMove(dt, lines, linesNum);

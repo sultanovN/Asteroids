@@ -1,9 +1,18 @@
 #pragma once
+#include "Engine/Engine.h"
 #include <stdint.h>
 #include <chrono>
 #include <vector>
 #include <thread>
 #include <random>
+
+//how timer works
+// in a loop
+//if (DidTimerEnd(startTime))
+//{
+//    doStuff
+//    StartTimer(startTime);
+//}
 
 std::random_device randDev;
 std::mt19937 gen(randDev());
@@ -14,54 +23,9 @@ int RandomNumberInRange(int min, int max)
     return distrib(gen);
 }
 
-class HealthComponent;
-
-const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
-{
-    for (int x = 0; x < SCREEN_WIDTH; x++)
-        for (int y = 0; y < SCREEN_HEIGHT; y++)
-        {
-            if ((x >= X && (x <= X + width)) && (y >= Y && (y <= Y + height)))
-            {
-                buffer[y][x] = objectColor;
-            }
-        }
-}
-
-enum class Inter
-{
-    Menu,
-    Game,
-    PauseMenu,
-    GameOver,
-    LevelSelect,
-    GameCompleted,
-};
-
-enum class Button
-{
-    Start,
-    Second,
-    Exit //level select
-};
-
-Inter GameMode = Inter::Menu;
-
-Button button = Button::Start;
-
-
-
-//how timer works
-// in a loop
-//if (DidTimerEnd(startTime))
-//{
-//    doStuff
-//    StartTimer(startTime);
-//}
-
 void StartTimer(std::chrono::steady_clock::time_point& startTime)
 {
-    startTime = std::chrono::steady_clock::now(); //auto
+    startTime = std::chrono::steady_clock::now();
 }
 
 bool DidTimerEnd(const std::chrono::steady_clock::time_point& startTime, const std::chrono::milliseconds time)
@@ -75,21 +39,59 @@ bool DidTimerEnd(const std::chrono::steady_clock::time_point& startTime, const s
     return false;
 }
 
-
+namespace Colors
+{
+    const uint32_t Red = 255 << 16;
+    const uint32_t Green = 255 << 8;
+    const uint32_t Blue = 0x0000FF;//255
+    const uint32_t Orange = 255 << 16 | 128 << 8;
+    const uint32_t Yellow = 255 << 16 | 255 << 8;
+    const uint32_t LightBlue = 0x00FFFF;
+};
 
 uint32_t MakeColor(uint8_t r, uint8_t g, uint8_t b)
 {
     return r << 16 | g << 8 | b;
 }
 
+enum class Inter
+{
+    Menu,
+    Game,
+    PauseMenu,
+    GameOver,
+    LevelSelect,
+    GameCompleted
+};
+
+enum class Button
+{
+    Start,
+    Second,
+    Exit //level select
+};
+
+enum class EBonusTypes
+{
+    Health,
+    ProjectileFreq,
+    ProjectileSpeed,
+    TwoProjectileShoot
+};
+
+
+Inter GameMode = Inter::Menu;
+
+Button button = Button::Start;
+
+
 struct Vector2D
 {
     float X, Y;
 
-    Vector2D(float X, float Y)
+    Vector2D(float X = 0.f, float Y = 0.f) 
         : X(X), Y(Y)
     {
-
     }
 };
 
@@ -104,12 +106,50 @@ bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
     return false;
 }
 
-//struct Projectile
-//{
-//    Vector2D Location;
-//    Vector2D ProjectileSize;
-//    uint32_t Color;
-//};
+
+const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
+{
+    for (int x = 0; x < SCREEN_WIDTH; x++)
+        for (int y = 0; y < SCREEN_HEIGHT; y++)
+        {
+            if ((x >= X && (x <= X + width)) && (y >= Y && (y <= Y + height)))
+            {
+                buffer[y][x] = objectColor;
+            }
+        }
+}
+
+const void objectDraw(std::vector<Vector2D> &objects, Vector2D Size, uint32_t objectColor)
+{
+    for (Vector2D& proj : objects)
+    {
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+            for (int y = 0; y < SCREEN_HEIGHT; y++)
+            {
+                if ((x >= proj.X && (x <= proj.X + Size.X)) &&
+                    (y >= proj.Y && (y <= proj.Y + Size.Y)))
+                {
+                    buffer[y][x] = objectColor;
+                }
+            }
+    }
+}
+
+const void objectDraw(Vector2D Location, Vector2D Size, uint32_t objectColor)
+{
+    for (int x = 0; x < SCREEN_WIDTH; x++)
+        for (int y = 0; y < SCREEN_HEIGHT; y++)
+        {
+            if ((x >= Location.X && (x <= Location.X + Size.X)) && (y >= Location.Y && (y <= Location.Y + Size.Y)))
+            {
+                buffer[y][x] = objectColor;
+            }
+        }
+}
+
+
+
+
 
 
 class ProjectileComponent
@@ -215,24 +255,6 @@ public:
         }
     }
 
-    /*if (DidTimerEnd(color, std::chrono::milliseconds(1000)))
-    {
-        StartTimer(now);
-
-        if (shot)
-        {
-            EnemyColor = MakeColor(200, 0, 0);
-            shot = false;
-        }
-        else
-        {
-            EnemyColor = MakeColor(200, 0, 200);
-            shot = true;
-
-        }
-    }*/
-
-
     void CollisionProj(ProjectileComponent &proj)
     {
         for (int i = 0; i < projectilesLocation.size(); i++)
@@ -252,22 +274,15 @@ public:
     }
 };
 
-enum class EBonusTypes
-{
-    Health,
-    ProjectileFreq,
-    ProjectileSpeed,
-    TwoProjectileShoot,
-};
 
 //Bonus will appear with the death of enemy at his place and slowly fall down
 class Bonus
 {
     Vector2D Location;
     Vector2D Size;
+    uint32_t Color;
     float speed;
     EBonusTypes BonusType;
-    uint32_t Color;
 
 public:
     Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, uint32_t Color = MakeColor(255, 0, 0), float speed = 200.f, Vector2D Size = {30.f, 30.f})
