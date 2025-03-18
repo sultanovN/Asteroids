@@ -1,6 +1,9 @@
 #include "Player.h"
-
-
+#include "../Components/GTimer.h"
+#include "../Utility.h"
+//remove GInterface
+#include "../Engine/Engine.h"
+Inter GameMode = Inter::Menu;
 
 void Player::Control(float dt)
 {

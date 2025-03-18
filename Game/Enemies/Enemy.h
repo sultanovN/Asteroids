@@ -1,5 +1,6 @@
 #pragma once
 #include "../Entity.h"
+#include "../Components/ProjectileComponent.h"
 
 class Enemy: public Entity
 {

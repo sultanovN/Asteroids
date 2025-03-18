@@ -1,8 +1,6 @@
 #pragma once
-
-//
-//  DO NOT MODIFY THIS FILE
-//
+#ifndef GameEngine
+#define GameEngine
 
 #include <stdint.h>
 
@@ -42,3 +40,5 @@ void act(float dt);
 void draw();
 
 void schedule_quit_game();
+
+#endif

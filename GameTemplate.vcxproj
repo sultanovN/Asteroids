@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -143,6 +143,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Components\Bonus.h" />
+    <ClInclude Include="Game\Components\Color.h" />
+    <ClInclude Include="Game\Components\GameClass.h" />
+    <ClInclude Include="Game\Components\Graphics.h" />
+    <ClInclude Include="Game\Components\GTimer.h" />
+    <ClInclude Include="Game\Components\ProjectileComponent.h" />
+    <ClInclude Include="Game\Components\Vector2D.h" />
     <ClInclude Include="Game\Enemies\Enemy.h" />
     <ClInclude Include="Game\Engine\Engine.h" />
     <ClInclude Include="Game\Enemies\LaserEnemy.h" />
@@ -151,6 +158,7 @@
     <ClInclude Include="Game\Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Components\GameClass.cpp" />
     <ClCompile Include="Game\Enemies\Enemy.cpp" />
     <ClCompile Include="Game\Engine\Engine.cpp" />
     <ClCompile Include="Game\Game.cpp" />

@@ -1,5 +1,7 @@
 #pragma once
-#include "Utility.h"
+#include "Components/Vector2D.h"
+#include "stdint.h"
+#include "Components/Color.h"
 
 class Entity
 {

@@ -1,5 +1,17 @@
 #pragma once
 #include "../Entity.h"
+#include "../Components/Bonus.h"
+#include "../Components/ProjectileComponent.h"
+
+enum class Inter
+{
+    Menu,
+    Game,
+    PauseMenu,
+    GameOver,
+    LevelSelect,
+    GameCompleted
+};
 
 class Player: public Entity
 {
