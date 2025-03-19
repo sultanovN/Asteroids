@@ -1,11 +1,19 @@
 #include "Player.h"
-#include "../Components/GTimer.h"
 #include "../Utility.h"
-//remove GInterface
-#include "../Engine/Engine.h"
-Inter GameMode = Inter::Menu;
+#include "../Components/Bonus.h"
+#include "../Components/ProjectileComponent.h"
+#include "../Components/Graphics.h"
 
-void Player::Control(float dt)
+//remove GInterface
+
+Player::Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f,
+    uint32_t Color = Colors::Red, int8_t Health = 2, float ProjectileSpeed = 500.f,
+    std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
+    : Entity(Location, Size, Speed, Color), Health(Health), ProjectileSpeed(ProjectileSpeed), projectilefrequency(projectilefrequency)
+{
+}
+
+void Player::Control(float dt, Inter& GameMode)
 {
     if (!GetIsAlive())
     {

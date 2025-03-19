@@ -1,7 +1,10 @@
 #pragma once
-#include "../Entity.h"
-#include "../Components/Bonus.h"
-#include "../Components/ProjectileComponent.h"
+#include "../Components/GTimer.h"
+
+class Entity;
+class ProjectileComponent;
+
+enum class EBonusTypes;
 
 enum class Inter
 {
@@ -16,10 +19,6 @@ enum class Inter
 class Player: public Entity
 {
 private:
-    Vector2D Location;
-    Vector2D Size;
-    uint32_t Color;
-    float Speed;
     float ProjectileSpeed;
     std::chrono::milliseconds projectilefrequency;
    // std::vector< Vector2D> projectilesLocation;
@@ -28,20 +27,16 @@ private:
 
 public:
 
-    Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f,
-        uint32_t Color = Colors::Red, int8_t Health = 2, float ProjectileSpeed = 500.f,
-        std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
-        : Entity(Location, Size, Speed, Color), ProjectileSpeed(ProjectileSpeed), projectilefrequency(projectilefrequency)
-    {
-    }
-
-    ProjectileComponent ProjectileComponent;
     int8_t Health;
     bool isAlive = true;
     bool MouseMode = false;
     int KillCount = 0;
 
-    void Control(float dt);
+    ProjectileComponent ProjComponent;
+
+    Player(Vector2D Location, Vector2D Size, float Speed, uint32_t Color, int8_t Health, float ProjectileSpeed, std::chrono::milliseconds projectilefrequency);
+
+    void Control(float dt, Inter& GameMode);
 
     bool BonusCollision(const Vector2D BonusLocation, const Vector2D BonusSize, const EBonusTypes BonusType);
     
@@ -60,3 +55,4 @@ public:
     bool GetIsAlive() const { return isAlive; }
     float GetProjectileSpeed() const { return ProjectileSpeed; }
 };
+

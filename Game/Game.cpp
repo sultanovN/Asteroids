@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#include "Components/GInterface.h"
+#include "Components/GameClass.h"
 //Goals:
 // 
 // enemy smooth spawn, moving forward +-
@@ -55,34 +55,25 @@
 //  clear_buffer() - set all pixels in buffer to 'black'
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
+Game game;
 
 // initialize game data in this function
 void initialize()
 {
-    player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, MakeColor(125, 0, 125),
-false, 500.f, std::chrono::milliseconds(300) };
-    enemy.reserve(6);
-    level1();
-    //EnemySpawn(enemy, EnemyLines, 3);
-
-    for (int j = 0; j < 3; j++)
-    {
-        EnemyLines[j] = true;
-    }
 }
  
 // this function is called to update game data,
 // dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
-    gameLoop(dt);
+    game.gameLoop(dt);
 }
 
 // fill buffer in this function
 // uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH] - is an array of 32-bit colors (8 bits per R, G, B)
 void draw()
 {
-    gameDraw();
+    game.gameDraw();
 }
 
 // free game data in this function

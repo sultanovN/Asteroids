@@ -36,8 +36,8 @@ struct Vector2D
 	}
 };
 
-bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
-    float r2x, float r2y, float r2w, float r2h)
+bool RectRectCollision(const float r1x, const float r1y, const float r1w, const float r1h,
+    const float r2x, const float r2y, const float r2w, const float r2h)
 {
     if (r1x + r1w >= r2x &&
         r1x <= r2x + r2w &&
@@ -46,4 +46,12 @@ bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
         return true;
     return false;
 }
+
+bool RectRectCollision(const Vector2D rec1Loc, const Vector2D rec1Size,
+    const Vector2D rec2Loc, const Vector2D rec2Size)
+{
+    return RectRectCollision(rec1Loc.X, rec1Loc.Y, rec1Size.X, rec1Size.Y,
+        rec2Loc.X, rec2Loc.Y, rec2Size.X, rec2Size.Y);
+}
+
 #endif

@@ -149,6 +149,7 @@
     <ClInclude Include="Game\Components\Graphics.h" />
     <ClInclude Include="Game\Components\GTimer.h" />
     <ClInclude Include="Game\Components\ProjectileComponent.h" />
+    <ClInclude Include="Game\Components\UserInterface.h" />
     <ClInclude Include="Game\Components\Vector2D.h" />
     <ClInclude Include="Game\Enemies\Enemy.h" />
     <ClInclude Include="Game\Engine\Engine.h" />
