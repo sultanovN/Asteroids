@@ -10,9 +10,9 @@ private:
     bool MovingDown = true;
 
 public:
-    LaserEnemy(float PlayerXLocation, Vector2D Location = { 500.0f, 500.0f }, int8_t Health = 4, uint32_t Color = MakeColor(0, 0, 190),
-        Vector2D Size = { 60.f, 40.f }, uint32_t ProjColor = MakeColor(0, 0, 200), float Speed = 200.f, bool MovingRight = false)
-        : Enemy(Location, Size, Speed, Color, Health, ProjColor, MovingRight), PlayerXLocation(PlayerXLocation)
+    LaserEnemy(float PlayerXLocation, Vector2D Location = { 500.0f, 500.0f }, int8_t Health = 4, uint32_t Color = Colors::MakeColor(0, 0, 190),
+        Vector2D Size = { 60.f, 40.f }, uint32_t ProjColor = Colors::MakeColor(0, 0, 200), float Speed = 200.f, bool MovingRight = false)
+        : Enemy(Location, Size, Speed, Color, Health, MovingRight), PlayerXLocation(PlayerXLocation)
     {
         Size = { 100.f, 40.f };
     }

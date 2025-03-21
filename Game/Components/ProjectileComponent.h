@@ -1,9 +1,7 @@
 #pragma once
 #include <vector>
 #include "GTimer.h"
-#include "Vector2D.h"
-#include "Color.h"
-//remove graphics
+#include "../Entity.h"
 
 class Projectile: public Entity
 {
@@ -25,7 +23,7 @@ private:
 
 public:
 
-    ProjectileComponent(Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = MakeColor(255, 0, 255), Vector2D Destination = { 0.f, 0.f })
+    ProjectileComponent(Vector2D ProjectileSize = { 10.f, 10.f }, uint32_t Color = Colors::MakeColor(255, 0, 255), Vector2D Destination = { 0.f, 0.f })
         : Size(ProjectileSize), Color(Color)
     {
         projectiles.reserve(18);

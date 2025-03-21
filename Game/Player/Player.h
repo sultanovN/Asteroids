@@ -1,8 +1,8 @@
 #pragma once
 #include "../Components/GTimer.h"
+#include "../Components/ProjectileComponent.h"
 
 class Entity;
-class ProjectileComponent;
 
 enum class EBonusTypes;
 
@@ -26,6 +26,7 @@ private:
     //Vector2D ProjectileSize;
 
 public:
+    Player(Vector2D Location, Vector2D Size, float Speed, uint32_t Color, int8_t Health, float ProjectileSpeed, std::chrono::milliseconds projectilefrequency);
 
     int8_t Health;
     bool isAlive = true;
@@ -33,8 +34,6 @@ public:
     int KillCount = 0;
 
     ProjectileComponent ProjComponent;
-
-    Player(Vector2D Location, Vector2D Size, float Speed, uint32_t Color, int8_t Health, float ProjectileSpeed, std::chrono::milliseconds projectilefrequency);
 
     void Control(float dt, Inter& GameMode);
 
@@ -54,5 +53,7 @@ public:
     
     bool GetIsAlive() const { return isAlive; }
     float GetProjectileSpeed() const { return ProjectileSpeed; }
+
+    void Update();
 };
 

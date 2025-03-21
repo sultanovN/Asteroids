@@ -1,7 +1,5 @@
 #include "Player.h"
-#include "../Utility.h"
 #include "../Components/Bonus.h"
-#include "../Components/ProjectileComponent.h"
 #include "../Components/Graphics.h"
 
 //remove GInterface
@@ -21,7 +19,6 @@ void Player::Control(float dt, Inter& GameMode)
 
         if (is_key_pressed(VK_SPACE))
         {
-
             isAlive = true;
             initialize();
         }
@@ -50,7 +47,7 @@ void Player::Control(float dt, Inter& GameMode)
 
     if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
     {
-        ProjectileComponent.Shoot(GetLocation(), GetSize().X, projectilefrequency);
+        ProjComponent.Shoot(GetLocation(), GetSize().X, projectilefrequency);
     }
 
 
@@ -94,7 +91,7 @@ void Player::BonusEffect(EBonusTypes BonusType)
         if (projectilefrequency > std::chrono::milliseconds(140))
         {
             projectilefrequency = std::chrono::milliseconds(150);
-            Color = MakeColor(0, 0, 255);
+            Color = Colors::MakeColor(0, 0, 255);
         }
         else if (Health < 3)
             Health++;
@@ -105,7 +102,7 @@ void Player::BonusEffect(EBonusTypes BonusType)
         if (ProjectileSpeed < 900.f)
         {
             ProjectileSpeed *= 2.f;
-            Color = MakeColor(0, 160, 200);
+            Color = Colors::MakeColor(0, 160, 200);
         }
         else if (Health < 3)
             Health++;
@@ -119,4 +116,8 @@ void Player::BonusEffect(EBonusTypes BonusType)
         break;
     }
     }
+}
+
+void Player::Update()
+{
 }
