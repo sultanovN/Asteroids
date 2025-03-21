@@ -5,6 +5,11 @@
 
 uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { 0 };
 
+void bufDraw(int x, int y, uint32_t Color)
+{
+    buffer[x][y] = Color;
+}
+
 static HINSTANCE hinst = 0;
 static DWORD ticks = 0;
 static bool is_active = true;
@@ -12,6 +17,8 @@ static POINT cursor_pos;
 static bool quited = false;
 static LARGE_INTEGER qpc_frequency = { 0 };
 static LARGE_INTEGER qpc_ref_time = { 0 };
+
+const char* GameWindowTitle = "Space Shooter";
 
 bool is_window_active()
 {
@@ -23,6 +30,7 @@ void clear_buffer()
   memset(buffer, 0, sizeof(buffer));
 }
 
+//control
 bool is_key_pressed(int button_vk_code)
 {
   return is_active && (GetAsyncKeyState(button_vk_code) & 0x8000);
@@ -84,6 +92,7 @@ static void CALLBACK update_proc(HWND hwnd)
 
   qpc_ref_time = t;
 }
+//
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -163,7 +172,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
   rect.bottom = SCREEN_HEIGHT;
   AdjustWindowRectEx(&rect, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE, 0);
 
-  HWND hwnd = CreateWindowA(wcex.lpszClassName, "Game", WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
+  HWND hwnd = CreateWindowA(wcex.lpszClassName, GameWindowTitle, WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU,
     CW_USEDEFAULT, 0, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
 
   if (!hwnd)

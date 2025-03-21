@@ -4,6 +4,7 @@
 #include "Vector2D.h"
 #include "../Engine/Engine.h"
 
+//try uint32_t** buffer
 const void objectDraw(float X, float Y, float width, float height, uint32_t objectColor)
 {
     for (int x = 0; x < SCREEN_WIDTH; x++)

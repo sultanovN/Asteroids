@@ -1,6 +1,4 @@
 #pragma once
-#ifndef GameEngine
-#define GameEngine
 
 #include <stdint.h>
 
@@ -41,4 +39,3 @@ void draw();
 
 void schedule_quit_game();
 
-#endif

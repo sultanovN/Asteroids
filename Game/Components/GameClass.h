@@ -1,11 +1,13 @@
 #pragma once
+#include <vector>
+#include "../Components/Graphics.h"
 #include "../Player/Player.h"
-#include "UserInterface.h"
 #include "../Enemies/Enemy.h"
 #include "../Enemies/LaserEnemy.h"
-#include <vector>
+#include "../Components/Bonus.h"
+#include "UserInterface.h"
 
-Player player{ { 500.0f, 600.0f } , { 50.f, 60.f } , 3 , MakeColor(125, 0, 125) ,
+Player player{ { 500.0f, 600.0f } , { 50.f, 60.f } , 3 , Colors::MakeColor(125, 0, 125) ,
 false , 500.f , std::chrono::milliseconds(300) };
 std::vector<Enemy> enemy;
 //std::vector<ProjectileComponent> Rocks;
@@ -14,27 +16,27 @@ bool EnemyLines[3];
 
 std::vector<Bonus>bonus;
 
+//change
 int8_t level = 1;
-
-void level1()
-{
-    enemy = { {{30.0f, -100.0f}}, {{400.0f, -100.0f}}, {{1000.0f, -100.0f}} };
-}
-
-void level2()
-{
-    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}} };
-}
-
-void level3()
-{
-    enemy = { {{30.0f, -100.0f}}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
-        MakeColor(0, 0, 200), 100.f, false} };
-    /*LaserEnemy Laser = { player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
-        MakeColor(0, 0, 200), 100.f, false};{900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
-        MakeColor(0, 0, 200), 100.f, false, player.GetLocation().X}*/ /*{{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)},
-        {{500.0f, -300.0f}}, */
-}
+//void level1()
+//{
+//    enemy = { {{30.0f, -100.0f}}, {{400.0f, -100.0f}}, {{1000.0f, -100.0f}} };
+//}
+//
+//void level2()
+//{
+//    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}} };
+//}
+//
+//void level3()
+//{
+//    enemy = { {{30.0f, -100.0f}}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, Colors::MakeColor(0, 0, 210), {60.f, 40.f},
+//        Colors::MakeColor(0, 0, 200), 100.f, false} };
+//    /*LaserEnemy Laser = { player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
+//        MakeColor(0, 0, 200), 100.f, false};{900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
+//        MakeColor(0, 0, 200), 100.f, false, player.GetLocation().X}*/ /*{{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)},
+//        {{500.0f, -300.0f}}, */
+//}
 
 
 
@@ -42,7 +44,7 @@ Inter GameMode = Inter::Menu;
 
 class Game
 {
-    Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, MakeColor(125, 0, 125),
+    Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, Colors::MakeColor(125, 0, 125),
     false, 500.f, std::chrono::milliseconds(300) };
 
     //Start game and continue game
@@ -51,10 +53,11 @@ class Game
 public:
     Game()
     {
-        player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, MakeColor(125, 0, 125),
+        player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, Colors::MakeColor(125, 0, 125),
     false, 500.f, std::chrono::milliseconds(300) };
         enemy.reserve(6);
-        level1();
+
+        //level1();
 
         for (int j = 0; j < 3; j++)
         {
@@ -91,33 +94,33 @@ public:
 
 
 //level1
-void levelChange()
-{
-    if (enemy.empty())
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            EnemyLines[j] = true;
-        }
-        level++;
-
-        switch (level)
-        {
-        case 1:
-            level1();
-            break;
-        case 2:
-            level2();
-            break;
-        case 3:
-            level3();
-            break;
-        default:
-            level2();
-            break;
-        }
-    }
-
-}
+//void levelChange()
+//{
+//    if (enemy.empty())
+//    {
+//        for (int j = 0; j < 3; j++)
+//        {
+//            EnemyLines[j] = true;
+//        }
+//        level++;
+//
+//        switch (level)
+//        {
+//        case 1:
+//            level1();
+//            break;
+//        case 2:
+//            level2();
+//            break;
+//        case 3:
+//            level3();
+//            break;
+//        default:
+//            level2();
+//            break;
+//        }
+//    }
+//
+//}
 
 

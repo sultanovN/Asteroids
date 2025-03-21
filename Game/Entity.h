@@ -1,7 +1,9 @@
 #pragma once
-#include "Components/Vector2D.h"
 #include "stdint.h"
+#include "Components/Vector2D.h"
 #include "Components/Color.h"
+
+void bufDraw(int x, int y, uint32_t Color);
 
 class Entity
 {
@@ -36,15 +38,14 @@ public:
             obj.GetLocation(), obj.GetSize());
     }
 
-    const void Draw(const int screen_width, const int screen_height, uint32_t** buffer)
+    const void Draw(const int screen_width, const int screen_height)
     {
         for (int x = 0; x < screen_width; x++)
             for (int y = 0; y < screen_height; y++)
             {
                 if ((x >= Location.X && (x <= Location.X + Size.X)) && (y >= Location.Y && (y <= Location.Y + Size.Y)))
                 {
-                    //if this does not work return Color, uint32_t and assign it in game to buffer
-                    buffer[y][x] = Color;
+                    bufDraw(x, y, Color);
                 }
             }
     }
