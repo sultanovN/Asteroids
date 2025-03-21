@@ -1,6 +1,5 @@
 #include "Enemy.h"
 #include "../Entity.h"
-#include "../Components/ProjectileComponent.h"
 
 Enemy::Enemy(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f, int8_t Health = 2, uint32_t Color = Colors::Red,
     bool MovingRight = true)

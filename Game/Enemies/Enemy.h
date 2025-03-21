@@ -1,19 +1,16 @@
 #pragma once
+#include "../Components/ProjectileComponent.h"
 
 class Entity;
-class ProjectileComponent;
 
 class Enemy: public Entity
 {
 private:
-    //uint32_t ProjColor;
     bool MovingRight = true;
     bool MovingDown = true;
 
 public:
     Enemy(Vector2D Location, Vector2D Size, float Speed, int8_t Health, uint32_t Color, bool MovingRight);
-
-
 
     ProjectileComponent ProjComponent;
     //HealthComponent HealthComp;
