@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <memory.h>
+#include "Engine/GameClass.h"
 
-#include "Components/GameClass.h"
 //Goals:
 // 
 // enemy smooth spawn, moving forward +-
@@ -55,6 +55,7 @@
 //  clear_buffer() - set all pixels in buffer to 'black'
 //  is_window_active() - returns true if window is active
 //  schedule_quit_game() - quit game after act()
+
 Game game;
 
 // initialize game data in this function

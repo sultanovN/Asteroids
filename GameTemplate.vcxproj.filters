@@ -23,7 +23,16 @@
     <ClCompile Include="Game\Enemies\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Components\GameClass.cpp">
+    <ClCompile Include="Game\Engine\GameClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Components\ProjectileComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entity\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Components\Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -34,7 +43,7 @@
     <ClInclude Include="Game\Player\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utility.h">
+    <ClInclude Include="Game\Engine\RandomNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Enemies\Enemy.h">
@@ -43,31 +52,34 @@
     <ClInclude Include="Game\Enemies\LaserEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Entity.h">
+    <ClInclude Include="Game\Entity\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Components\Bonus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\Color.h">
+    <ClInclude Include="Game\Engine\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\GameClass.h">
+    <ClInclude Include="Game\Engine\GameClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\Graphics.h">
+    <ClInclude Include="Game\Engine\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\GTimer.h">
+    <ClInclude Include="Game\Engine\GTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Components\ProjectileComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\Vector2D.h">
+    <ClInclude Include="Game\Engine\Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Components\UserInterface.h">
+    <ClInclude Include="Game\Engine\UserInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Components\Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

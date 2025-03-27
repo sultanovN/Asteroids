@@ -1,16 +1,15 @@
 #pragma once
-#include "../Entity.h"
+#include "../Entity/Entity.h"
 
+//create button order function
 class Button: public Entity
 {
-public:
-    Button(Vector2D Location, Vector2D Size, uint32_t Color = Colors::Red)
-        : Entity(Location, Size, 0.f, Color)
-    {
-
-    }
-
     uint8_t buttonOrderNum;
+public:
+    Button(Vector2D Location, Vector2D Size, uint8_t buttonOrderNum, uint32_t Color = Colors::Red)
+        : Entity(Location, Size, 0.f, Color), buttonOrderNum(buttonOrderNum)
+    {
+    }
 
     bool isHovering(Vector2D mouseLoc)
     {
@@ -31,7 +30,6 @@ public:
         return false;
     }
 };
-
 //enum class Button
 //{
 //    Start,

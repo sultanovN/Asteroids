@@ -9,12 +9,12 @@
 //    StartTimer(startTime);
 //}
 
-void StartTimer(std::chrono::steady_clock::time_point& startTime)
+inline void StartTimer(std::chrono::steady_clock::time_point& startTime)
 {
     startTime = std::chrono::steady_clock::now();
 }
 
-bool DidTimerEnd(const std::chrono::steady_clock::time_point& startTime, const std::chrono::milliseconds time)
+inline bool DidTimerEnd(const std::chrono::steady_clock::time_point& startTime, const std::chrono::milliseconds time)
 {
     using namespace std::chrono_literals;
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();

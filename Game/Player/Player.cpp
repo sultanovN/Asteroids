@@ -1,6 +1,4 @@
 #include "Player.h"
-#include "../Components/Bonus.h"
-#include "../Components/Graphics.h"
 
 //remove GInterface
 
@@ -11,11 +9,31 @@ Player::Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 
 {
 }
 
-void Player::Control(float dt, Inter& GameMode)
+void Player::Update(const float dt)
+{
+    Control(dt);
+    ProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
+    ProjComponent.Update(dt);
+}
+
+bool Player::PressedExit()
+{
+    return is_key_pressed(VK_ESCAPE);
+}
+
+const void Player::Draw()
+{
+    Entity::Draw();
+
+    ProjComponent.Draw();
+}
+
+void Player::Control(float dt)
 {
     if (!GetIsAlive())
     {
-        GameMode = Inter::Menu;
+        ////rewrite in gameclass
+       // GameMode = Inter::Menu;
 
         if (is_key_pressed(VK_SPACE))
         {
@@ -23,17 +41,18 @@ void Player::Control(float dt, Inter& GameMode)
             initialize();
         }
 
-        if (is_key_pressed(VK_ESCAPE))
+        if (PressedExit())
         {
             schedule_quit_game();
         }
     }
 
-    if (is_key_pressed(VK_ESCAPE))
-    {
-        GameMode = Inter::PauseMenu;
-        //schedule_quit_game();
-    }
+    //if (is_key_pressed(VK_ESCAPE))
+    //{
+    //    //rewrite in gameclass
+    //    //GameMode = Inter::PauseMenu;
+    //    //schedule_quit_game();
+    //}
 
     if (is_key_pressed(VK_RIGHT) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))
     {
@@ -47,7 +66,7 @@ void Player::Control(float dt, Inter& GameMode)
 
     if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
     {
-        ProjComponent.Shoot(GetLocation(), GetSize().X, projectilefrequency);
+        ProjComponent.Shoot(projectilefrequency);
     }
 
 
@@ -65,59 +84,56 @@ void Player::Control(float dt, Inter& GameMode)
     }
 }
 
-bool Player::BonusCollision(const Vector2D BonusLocation, const Vector2D BonusSize, const EBonusTypes BonusType)
-{
-    if (RectRectCollision(Location.X, Location.Y, Size.X, Size.Y,
-        BonusLocation.X, BonusLocation.Y, BonusSize.X, BonusSize.Y))
-    {
-        BonusEffect(BonusType);
-        return true;
-    }
-    return false;
-}
+//bool Player::BonusCollision(const Vector2D BonusLocation, const Vector2D BonusSize, const EBonusTypes BonusType)
+//{
+//    if (Collision(Location, Size,
+//        BonusLocation, BonusSize))
+//    {
+//        BonusEffect(BonusType);
+//        return true;
+//    }
+//    return false;
+//}
+//
+//void Player::BonusEffect(EBonusTypes BonusType)
+//{
+//    switch (BonusType)
+//    {
+//    case EBonusTypes::Health:
+//    {
+//        if (Health < 3)
+//            Health++;
+//        break;
+//    }
+//    case EBonusTypes::ProjectileFreq:
+//    {
+//        if (projectilefrequency > std::chrono::milliseconds(140))
+//        {
+//            projectilefrequency = std::chrono::milliseconds(150);
+//            Color = Colors::MakeColor(0, 0, 255);
+//        }
+//        else if (Health < 3)
+//            Health++;
+//        break;
+//    }
+//    case EBonusTypes::ProjectileSpeed:
+//    {
+//        if (ProjectileSpeed < 900.f)
+//        {
+//            ProjectileSpeed *= 2.f;
+//            Color = Colors::MakeColor(0, 160, 200);
+//        }
+//        else if (Health < 3)
+//            Health++;
+//        break;
+//    }
+//    //case EBonusTypes::TwoProjectileShoot:
+//    default:
+//    {
+//        if (Health < 3)
+//            Health++;
+//        break;
+//    }
+//    }
+//}
 
-void Player::BonusEffect(EBonusTypes BonusType)
-{
-    switch (BonusType)
-    {
-    case EBonusTypes::Health:
-    {
-        if (Health < 3)
-            Health++;
-        break;
-    }
-    case EBonusTypes::ProjectileFreq:
-    {
-        if (projectilefrequency > std::chrono::milliseconds(140))
-        {
-            projectilefrequency = std::chrono::milliseconds(150);
-            Color = Colors::MakeColor(0, 0, 255);
-        }
-        else if (Health < 3)
-            Health++;
-        break;
-    }
-    case EBonusTypes::ProjectileSpeed:
-    {
-        if (ProjectileSpeed < 900.f)
-        {
-            ProjectileSpeed *= 2.f;
-            Color = Colors::MakeColor(0, 160, 200);
-        }
-        else if (Health < 3)
-            Health++;
-        break;
-    }
-    //case EBonusTypes::TwoProjectileShoot:
-    default:
-    {
-        if (Health < 3)
-            Health++;
-        break;
-    }
-    }
-}
-
-void Player::Update()
-{
-}

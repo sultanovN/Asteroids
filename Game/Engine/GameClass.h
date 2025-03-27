@@ -1,23 +1,19 @@
 #pragma once
 #include <vector>
-#include "../Components/Graphics.h"
 #include "../Player/Player.h"
 #include "../Enemies/Enemy.h"
-#include "../Enemies/LaserEnemy.h"
-#include "../Components/Bonus.h"
+//#include "../Enemies/LaserEnemy.h"
+//#include "../Components/Bonus.h"
 #include "UserInterface.h"
 
-Player player{ { 500.0f, 600.0f } , { 50.f, 60.f } , 3 , Colors::MakeColor(125, 0, 125) ,
-false , 500.f , std::chrono::milliseconds(300) };
-std::vector<Enemy> enemy;
-//std::vector<ProjectileComponent> Rocks;
-//Enemy enemy[3];
-bool EnemyLines[3];
-
-std::vector<Bonus>bonus;
+////std::vector<ProjectileComponent> Rocks;
+////Enemy enemy[3];
+//bool EnemyLines[3];
+//
+//std::vector<Bonus>bonus;
 
 //change
-int8_t level = 1;
+//int8_t level = 1;
 //void level1()
 //{
 //    enemy = { {{30.0f, -100.0f}}, {{400.0f, -100.0f}}, {{1000.0f, -100.0f}} };
@@ -40,36 +36,48 @@ int8_t level = 1;
 
 
 
-Inter GameMode = Inter::Menu;
-
 class Game
 {
     Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, Colors::MakeColor(125, 0, 125),
     false, 500.f, std::chrono::milliseconds(300) };
+    std::vector<Enemy> enemy;
 
     //Start game and continue game
-    Button StartContinue{ { ScreenCenter.X - 600.f / 2.f, ScreenCenter.Y - 80.f / 2.f - 100.f }, {600.f, 80.f} };
-    Button Exit{ StartContinue.GetLocation() + 50.f, StartContinue.GetSize()};
+    //Button StartContinue{ { ScreenCenter.X - (600.f / 2.f), ScreenCenter.Y - (80.f / 2.f) - 100.f }, {600.f, 80.f} };
+
+    Button StartContinue{ { 200, 200 }, {300.f, 80.f}, 0 };
+    Button Exit{ {StartContinue.GetLocation().X, StartContinue.GetLocation().Y + StartContinue.GetSize().Y * 2}, 
+        StartContinue.GetSize(), 1};
+
+    enum class Inter
+    {
+        Menu,
+        Game,
+        PauseMenu,
+        GameOver,
+        LevelSelect,
+        GameCompleted
+    };
+
 public:
     Game()
     {
-        player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, Colors::MakeColor(125, 0, 125),
-    false, 500.f, std::chrono::milliseconds(300) };
-        enemy.reserve(6);
+        //enemy.reserve(6);
 
         //level1();
 
-        for (int j = 0; j < 3; j++)
+        /*for (int j = 0; j < 3; j++)
         {
             EnemyLines[j] = true;
-        }
+        }*/
     }
-
+    
     void gameLoop(float dt);
     void gameDraw();
     void GameMenu();
     Vector2D ScreenCenter{ SCREEN_WIDTH / 2.f , SCREEN_HEIGHT / 2.f };
-
+    Inter GameMode = Inter::Menu;
+    void EnemySpawn();
 };
 
 

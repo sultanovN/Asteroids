@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include "../Entity.h"
 
 Enemy::Enemy(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f, int8_t Health = 2, uint32_t Color = Colors::Red,
     bool MovingRight = true)
@@ -22,7 +21,6 @@ void Enemy::LineMove(const float dt, bool lines[], int linesNum)
                 MovingDown = false;
                 lines[j] = false;
                 break;
-
             }
         }
     }
@@ -46,4 +44,9 @@ void Enemy::Move(const float dt, bool lines[], int linesNum, const int screenWid
     }
 
     LineMove(dt, lines, linesNum);
+}
+
+void Enemy::Update(const float dt)
+{
+    ProjComponent.Update(dt);
 }
