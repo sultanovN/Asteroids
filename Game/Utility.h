@@ -91,6 +91,16 @@ struct Vector2D
     {
 
     }
+
+    Vector2D operator+(Vector2D second)
+    {
+        return Vector2D(this->X + second.X, this->Y + second.Y);
+    }
+
+    Vector2D operator-(Vector2D second)
+    {
+        return Vector2D(this->X - second.X, this->Y - second.Y);
+    }
 };
 
 bool RectRectCollision(float r1x, float r1y, float r1w, float r1h,
