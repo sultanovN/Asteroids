@@ -46,12 +46,10 @@ struct Vector2D
 inline bool RectRectCollision(const float r1x, const float r1y, const float r1w, const float r1h,
     const float r2x, const float r2y, const float r2w, const float r2h)
 {
-    if (r1x + r1w >= r2x &&
+    return (r1x + r1w >= r2x &&
         r1x <= r2x + r2w &&
         r1y + r1h >= r2y &&
-        r1y < r2y + r2h)
-        return true;
-    return false;
+        r1y < r2y + r2h);
 }
 
 inline bool RectRectCollision(const Vector2D rec1Loc, const Vector2D rec1Size,

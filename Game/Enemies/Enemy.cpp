@@ -6,27 +6,27 @@ Enemy::Enemy(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 30
 {
 }
 
-void Enemy::LineMove(const float dt, bool lines[], int linesNum)
+void Enemy::LineMove(const float dt, int lines[], int linesNum)
 {
     if (MovingDown)
     {
         for (int j = 0; j < linesNum; j++)
         {
-            if ((Location.Y < (100.0f * (j + 1))) && lines[j])
+            if ((Location.Y < (100.0f * (j + 1))) && lines[j] < 4)
             {
-                Location.Y += Speed * dt;
+                Location.Y += (Speed/2) * dt;
             }
-            else if (Location.Y >= (100.0f * (j + 1)) && lines[j])
+            else if (Location.Y >= (100.0f * (j + 1)) && lines[j] < 4)
             {
                 MovingDown = false;
-                lines[j] = false;
+                lines[j] += 1;
                 break;
             }
         }
     }
 }
 
-void Enemy::Move(const float dt, bool lines[], int linesNum, const int screenWidth, float playerX)
+void Enemy::Move(const float dt, int lines[], int linesNum, const int screenWidth, float playerX)
 {
     if (Location.X < 50.0f)
         MovingRight = true;
@@ -48,5 +48,7 @@ void Enemy::Move(const float dt, bool lines[], int linesNum, const int screenWid
 
 void Enemy::Update(const float dt)
 {
+    ProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
     ProjComponent.Update(dt);
+    
 }

@@ -3,9 +3,9 @@
 //remove GInterface
 
 Player::Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f,
-    uint32_t Color = Colors::Red, int8_t Health = 2, float ProjectileSpeed = 500.f,
+    uint32_t Color = Colors::Red, int8_t Health = 2,
     std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
-    : Entity(Location, Size, Speed, Color), Health(Health), ProjectileSpeed(ProjectileSpeed), projectilefrequency(projectilefrequency)
+    : Entity(Location, Size, Speed, Color), Health(Health), projectilefrequency(projectilefrequency)
 {
 }
 
@@ -47,6 +47,8 @@ void Player::Control(float dt)
         }
     }
 
+    if (Health == 0)
+        isAlive = false;
     //if (is_key_pressed(VK_ESCAPE))
     //{
     //    //rewrite in gameclass
@@ -95,45 +97,46 @@ void Player::Control(float dt)
 //    return false;
 //}
 //
-//void Player::BonusEffect(EBonusTypes BonusType)
-//{
-//    switch (BonusType)
-//    {
-//    case EBonusTypes::Health:
-//    {
-//        if (Health < 3)
-//            Health++;
-//        break;
-//    }
-//    case EBonusTypes::ProjectileFreq:
-//    {
-//        if (projectilefrequency > std::chrono::milliseconds(140))
-//        {
-//            projectilefrequency = std::chrono::milliseconds(150);
-//            Color = Colors::MakeColor(0, 0, 255);
-//        }
-//        else if (Health < 3)
-//            Health++;
-//        break;
-//    }
-//    case EBonusTypes::ProjectileSpeed:
-//    {
-//        if (ProjectileSpeed < 900.f)
-//        {
-//            ProjectileSpeed *= 2.f;
-//            Color = Colors::MakeColor(0, 160, 200);
-//        }
-//        else if (Health < 3)
-//            Health++;
-//        break;
-//    }
-//    //case EBonusTypes::TwoProjectileShoot:
-//    default:
-//    {
-//        if (Health < 3)
-//            Health++;
-//        break;
-//    }
-//    }
-//}
+
+void Player::BonusEffect(EBonusTypes BonusType)
+{
+    switch (BonusType)
+    {
+    case EBonusTypes::Health:
+    {
+        if (Health < 3)
+            Health++;
+        break;
+    }
+    case EBonusTypes::ProjectileFreq:
+    {
+        if (projectilefrequency > std::chrono::milliseconds(140))
+        {
+            projectilefrequency = std::chrono::milliseconds(150);
+            Color = Colors::MakeColor(0, 0, 255);
+        }
+        else if (Health < 3)
+            Health++;
+        break;
+    }
+    case EBonusTypes::ProjectileSpeed:
+    {
+        if (ProjComponent.GetSpeed() < 900.f)
+        {
+            ProjComponent.SetSpeed(ProjComponent.GetSpeed()*2.f);
+            Color = Colors::MakeColor(0, 160, 200);
+        }
+        else if (Health < 3)
+            Health++;
+        break;
+    }
+    //case EBonusTypes::TwoProjectileShoot:
+    default:
+    {
+        if (Health < 3)
+            Health++;
+        break;
+    }
+    }
+}
 

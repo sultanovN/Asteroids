@@ -3,7 +3,7 @@
 #include "../Player/Player.h"
 #include "../Enemies/Enemy.h"
 //#include "../Enemies/LaserEnemy.h"
-//#include "../Components/Bonus.h"
+#include "../Components/Bonus.h"
 #include "UserInterface.h"
 
 ////std::vector<ProjectileComponent> Rocks;
@@ -38,10 +38,10 @@
 
 class Game
 {
-    Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 3, Colors::MakeColor(125, 0, 125),
-    false, 500.f, std::chrono::milliseconds(300) };
+    Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
+    3, std::chrono::milliseconds(300) };
     std::vector<Enemy> enemy;
-
+    std::vector<Bonus> bonuses;
     //Start game and continue game
     //Button StartContinue{ { ScreenCenter.X - (600.f / 2.f), ScreenCenter.Y - (80.f / 2.f) - 100.f }, {600.f, 80.f} };
 
@@ -62,8 +62,10 @@ class Game
 public:
     Game()
     {
-        //enemy.reserve(6);
+        enemy.reserve(16);
+        bonuses.reserve(4);
 
+        // 
         //level1();
 
         /*for (int j = 0; j < 3; j++)
@@ -78,6 +80,8 @@ public:
     Vector2D ScreenCenter{ SCREEN_WIDTH / 2.f , SCREEN_HEIGHT / 2.f };
     Inter GameMode = Inter::Menu;
     void EnemySpawn();
+    void BonusSpawn(Vector2D Location);
+    void ReSpawn();
 };
 
 

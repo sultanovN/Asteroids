@@ -9,13 +9,14 @@ class ProjectileComponent: public Entity
 {
 private:
     std::vector<Projectile> projectiles;
-    std::vector<Projectile> buffer;
     std::chrono::steady_clock::time_point startTime;
 
 public:
     ProjectileComponent(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
 
     std::vector<Projectile> GetProjectilesLocation() { return projectiles; }
+
+    void SetSpeed(const float Speed) { this->Speed = Speed; }
 
     Vector2D GetSize()const { return Size; }
 

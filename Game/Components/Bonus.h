@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "../Entity.h"
+#include "../Entity/Entity.h"
 
 enum class EBonusTypes
 {
@@ -23,6 +23,27 @@ public:
     }
 
     EBonusTypes GetBonusType()const { return BonusType; }
+    bool changing = true;
+    uint32_t Interpolate(uint32_t Start, uint32_t End, float dt)
+    {
+        return Start + dt * (End - Start);
+    }
 
-    void Move(float dt){Location.Y += Speed * dt;}
+    virtual void Update(const float dt) override
+    {
+        Location.Y += Speed * dt;
+        //Color glow
+        if (changing)
+        {
+            Color = Interpolate(Color, Colors::Blue, 1);
+            if (Color == Colors::Blue)
+                changing = 0;
+        }
+        else
+        {
+            Color = Interpolate(Color, Colors::Red,1);
+            if (Color == Colors::Red)
+                changing = 1;
+        }
+    };
 };
