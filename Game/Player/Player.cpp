@@ -113,7 +113,7 @@ void Player::BonusEffect(EBonusTypes BonusType)
         if (projectilefrequency > std::chrono::milliseconds(140))
         {
             projectilefrequency = std::chrono::milliseconds(150);
-            Color = Colors::MakeColor(0, 0, 255);
+            color = Colors::MakeColor(0, 0, 255);
         }
         else if (Health < 3)
             Health++;
@@ -124,7 +124,7 @@ void Player::BonusEffect(EBonusTypes BonusType)
         if (ProjComponent.GetSpeed() < 900.f)
         {
             ProjComponent.SetSpeed(ProjComponent.GetSpeed()*2.f);
-            Color = Colors::MakeColor(0, 160, 200);
+            color = Colors::MakeColor(0, 160, 200);
         }
         else if (Health < 3)
             Health++;

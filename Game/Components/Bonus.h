@@ -23,7 +23,7 @@ public:
     }
 
     EBonusTypes GetBonusType()const { return BonusType; }
-    bool changing = true;
+    bool ColorIncreasing = true;
     uint32_t Interpolate(uint32_t Start, uint32_t End, float dt)
     {
         return Start + dt * (End - Start);
@@ -33,17 +33,23 @@ public:
     {
         Location.Y += Speed * dt;
         //Color glow
-        if (changing)
+        if (ColorIncreasing)
         {
-            Color = Interpolate(Color, Colors::Blue, 1);
-            if (Color == Colors::Blue)
-                changing = 0;
+            if (color.GetR() >= 253)
+                ColorIncreasing = false;
+            else
+            {
+                color = Color(color.GetR() + 6, 0, color.GetB() - 6);
+            }
         }
         else
         {
-            Color = Interpolate(Color, Colors::Red,1);
-            if (Color == Colors::Red)
-                changing = 1;
+            if (color.GetR() <= 20)
+                ColorIncreasing = true;
+            else
+            {
+                color = Color(color.GetR() - 6, 0, color.GetB() + 6);
+            }
         }
     };
 };

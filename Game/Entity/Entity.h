@@ -11,7 +11,7 @@ protected:
     Vector2D Location;
     Vector2D Size;
     float Speed;
-    uint32_t Color;
+    Color color;
 
 public:
     Entity(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
@@ -20,13 +20,13 @@ public:
 
     Vector2D GetSize() const { return Size; }
 
-    uint32_t& GetColor() { return Color; }
+    //uint32_t& GetColor() { return Colors::MakeColor(Color); }
 
     float GetSpeed()const { return Speed; }
 
     virtual void SetLocation(const float X, const float Y) { Location = { X, Y }; }
 
-    virtual void SetColor(const uint32_t LColor) { Color = LColor; }
+    //virtual void SetColor(const uint32_t LColor) { Color = LColor; }
 
     virtual bool Collision(const Entity obj)
     {
