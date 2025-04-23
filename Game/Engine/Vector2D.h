@@ -96,7 +96,7 @@ inline void DrawCircle(Vector2D Center, const int res, const float radius, uint3
     float x1 = Center.X + cos(angle1) * radius;
     float y1 = Center.Y + sin(angle1) * radius;
     v1 = { x1, y1 };
-
+    //3.141592653589
     for (int i = 0; i <= res; ++i)
     {
         float angle2 = 2.f * 3.141592653589 * (static_cast<float>(i + 1) / res);
