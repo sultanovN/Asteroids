@@ -2,51 +2,6 @@
 #include <memory.h>
 #include "Engine/GameClass.h"
 
-//Goals:
-// 
-// enemy smooth spawn, moving forward +-
-// text render
-// health visual
-// levels +-
-//   
-// std::map
-// std::set
-// multithreads
-// 
-// player changes color when hit 
-// 
-// interface with enums+
-// 
-// different types of enemies
-// 
-// enemy that follows the player
-// 
-// laser attack, follows player, stops for attack
-// 
-// button hover function+
-// 
-// drawing objects in one(entity)
-// 
-// highest score in the menu
-// 
-// storing score in the file
-// 
-// pickable bonuses, higher damage more projectiles etc. +-
-// 
-// "freetype" text, font library
-// 
-// mouse press release function
-// 
-// ignoring mouse when using keyboard(when mouse is above button, keyboard control issue, 
-// save mouse location when opening menu or using keyboard, if it stays in place ignore, can be included to the game loop too)
-// 
-// engine data not visible to files when changing files structure
-// 
-// add static constexpr(one variable for all class instances, doesnt get copied for each class)
-// 
-// randomizer for enemies
-// 
-
 //  is_key_pressed(int button_vk_code) - check if a key is pressed,
 //                                       use keycodes (VK_SPACE, VK_RIGHT, VK_LEFT, VK_UP, VK_DOWN, 'A', 'B')
 //
@@ -58,13 +13,10 @@
 
 Game game;
 
-// initialize game data in this function
 void initialize()
 {
 }
  
-// this function is called to update game data,
-// dt - time elapsed since the previous update (in seconds)
 void act(float dt)
 {
     game.gameLoop(dt);

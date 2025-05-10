@@ -1,0 +1,8 @@
+C:\Projects\Asteroids\Game\Components\Projectile.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Projectile.obj
+C:\Projects\Asteroids\Game\Engine\GameClass.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\GameClass.obj
+C:\Projects\Asteroids\Game\Components\ProjectileComponent.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\ProjectileComponent.obj
+C:\Projects\Asteroids\Game\Enemies\Enemy.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Enemy.obj
+C:\Projects\Asteroids\Game\Engine\Engine.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Engine.obj
+C:\Projects\Asteroids\Game\Entity\Entity.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Entity.obj
+C:\Projects\Asteroids\Game\Game.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Game.obj
+C:\Projects\Asteroids\Game\Player\Player.cpp;C:\Projects\Asteroids\Asteroids\x64\Release\Player.obj
