@@ -13,6 +13,9 @@
 #  define VK_RIGHT  0x27
 #  define VK_DOWN   0x28
 #  define VK_RETURN 0x0D
+
+#define VK_A 0x41 //65
+#define VK_D 0x44 //68
 #endif
 
 // backbuffer

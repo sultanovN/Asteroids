@@ -56,12 +56,12 @@ void Player::Control(float dt)
     //    //schedule_quit_game();
     //}
 
-    if (is_key_pressed(VK_RIGHT) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))
+    if ((is_key_pressed(VK_RIGHT) || is_key_pressed(VK_D)) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))
     {
         SetLocation(GetLocation().X + 400.f * dt, GetLocation().Y);
     }
 
-    if (is_key_pressed(VK_LEFT) && (GetLocation().X > 0))
+    if ((is_key_pressed(VK_LEFT) || is_key_pressed(VK_A)) && (GetLocation().X > 0))
     {
         SetLocation(GetLocation().X - 400.f * dt, GetLocation().Y);
     }
