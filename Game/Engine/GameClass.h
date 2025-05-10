@@ -6,36 +6,6 @@
 #include "../Components/Bonus.h"
 #include "UserInterface.h"
 
-////std::vector<ProjectileComponent> Rocks;
-////Enemy enemy[3];
-//bool EnemyLines[3];
-//
-//std::vector<Bonus>bonus;
-
-//change
-//int8_t level = 1;
-//void level1()
-//{
-//    enemy = { {{30.0f, -100.0f}}, {{400.0f, -100.0f}}, {{1000.0f, -100.0f}} };
-//}
-//
-//void level2()
-//{
-//    enemy = { {{30.0f, -100.0f}}, {{400.0f, -200.0f}}, {{1000.0f, -300.0f}} };
-//}
-//
-//void level3()
-//{
-//    enemy = { {{30.0f, -100.0f}}, LaserEnemy{ player.GetLocation().X, {900.0f, -400.0f}, 2, Colors::MakeColor(0, 0, 210), {60.f, 40.f},
-//        Colors::MakeColor(0, 0, 200), 100.f, false} };
-//    /*LaserEnemy Laser = { player.GetLocation().X, {900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
-//        MakeColor(0, 0, 200), 100.f, false};{900.0f, -400.0f}, 2, MakeColor(0, 0, 210), {60.f, 40.f},
-//        MakeColor(0, 0, 200), 100.f, false, player.GetLocation().X}*/ /*{{100.0f, -200.0f}, 1, MakeColor(0, 0, 255)},
-//        {{500.0f, -300.0f}}, */
-//}
-
-
-
 class Game
 {
     Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
@@ -64,14 +34,6 @@ public:
     {
         enemy.reserve(16);
         bonuses.reserve(4);
-
-        // 
-        //level1();
-
-        /*for (int j = 0; j < 3; j++)
-        {
-            EnemyLines[j] = true;
-        }*/
     }
     
     void gameLoop(float dt);
@@ -83,56 +45,3 @@ public:
     void BonusSpawn(Vector2D Location);
     void ReSpawn();
 };
-
-
-//void StartGameInterface()
-//{
-//    if (button == Button::Start && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
-//    {
-//        initialize();
-//        GameMode = Inter::Game;
-//    }
-//    else if (button == Button::Exit && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
-//    {
-//        schedule_quit_game();
-//    }
-//    else if (button == Button::Second && ((is_mouse_button_pressed(0) || is_key_pressed(VK_RETURN))))
-//    {
-//        GameMode = Inter::LevelSelect;
-//
-//    }
-//}
-
-
-
-//level1
-//void levelChange()
-//{
-//    if (enemy.empty())
-//    {
-//        for (int j = 0; j < 3; j++)
-//        {
-//            EnemyLines[j] = true;
-//        }
-//        level++;
-//
-//        switch (level)
-//        {
-//        case 1:
-//            level1();
-//            break;
-//        case 2:
-//            level2();
-//            break;
-//        case 3:
-//            level3();
-//            break;
-//        default:
-//            level2();
-//            break;
-//        }
-//    }
-//
-//}
-
-

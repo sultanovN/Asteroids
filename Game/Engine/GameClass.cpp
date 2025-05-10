@@ -166,8 +166,6 @@ void Game::gameDraw()
     {
     case Inter::Game:
     {
-        DrawCircle(Vector2D{200.f, 200.f}, 50, 50, Colors::Green);
-
         //make the bonus glow, change color while falling
         player.Draw();
         for (auto en : enemy)
