@@ -4,10 +4,9 @@
 
 int lines[] = { 0,0,0,0 };
 
-
 void Game::GameMenu()
 {
-    if (GameMode == Inter::Menu && StartContinue.isClicking({ get_cursor_x() * 1.f, get_cursor_y() * 1.f },
+    if ((GameMode == Inter::Menu || GameMode == Inter::GameOver) && StartContinue.isClicking({ get_cursor_x() * 1.f, get_cursor_y() * 1.f },
         is_mouse_button_pressed(0) || is_key_pressed(13)))
     {
         ReSpawn();
@@ -18,7 +17,7 @@ void Game::GameMenu()
     {
         GameMode = Inter::Game;
     }
-    else if ((GameMode == Inter::Menu || GameMode == Inter::PauseMenu) && Exit.isClicking({ get_cursor_x() * 1.f, get_cursor_y() * 1.f },
+    else if ((GameMode == Inter::Menu || GameMode == Inter::PauseMenu || GameMode == Inter::GameOver) && Exit.isClicking({ get_cursor_x() * 1.f, get_cursor_y() * 1.f },
         is_mouse_button_pressed(0) || is_key_pressed(13)))
     {
         schedule_quit_game();
@@ -89,7 +88,7 @@ void Game::gameLoop(float dt)
     {
         if (!player.GetIsAlive())
         {
-            GameMode = Inter::Menu;
+            GameMode = Inter::GameOver;
             break;
         }
 
@@ -142,6 +141,7 @@ void Game::gameLoop(float dt)
     }
     case Inter::GameOver:
     {
+        GameMenu();
         break;
     }
     case Inter::GameCompleted:
@@ -166,7 +166,6 @@ void Game::gameDraw()
     {
     case Inter::Game:
     {
-        //make the bonus glow, change color while falling
         player.Draw();
         for (auto en : enemy)
         {
@@ -192,6 +191,27 @@ void Game::gameDraw()
     }
     case Inter::PauseMenu:
     {
+        StartContinue.Draw();
+        Exit.Draw();
+        break;
+    }
+    case Inter::GameOver:
+    {
+        player.Draw();
+        for (auto en : enemy)
+        {
+            en.Draw();
+            en.ProjComponent.Draw();
+        }
+        for (auto bonus : bonuses)
+        {
+            bonus.Draw();
+        }
+
+        for (int i = 1; i < player.Health + 1; i++)
+        {
+            DrawRectangle(50.f * i, 700.f, 20.f, 20.f, Colors::Red);
+        }
         StartContinue.Draw();
         Exit.Draw();
         break;
