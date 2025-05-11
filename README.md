@@ -14,4 +14,10 @@ Bonuses fall from destroyed enemies.
 ## Bonus types:
 Heal by 1 point\
 Increase shooting speed\
-Increase projectile speed
+Increase projectile speed\
+
+##Dependency:
+windows.h
+\_(ツ)_/
+
+The game doesn't have asteroids :)
