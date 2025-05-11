@@ -12,6 +12,6 @@ Player shoots enemies and dodges projectiles.\
 Bonuses fall from destroyed enemies.
 
 ## Bonus types:
-Heal by 1 poins\
+Heal by 1 point\
 Increase shooting speed\
 Increase projectile speed
