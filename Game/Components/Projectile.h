@@ -9,5 +9,10 @@ public:
     {
     }
 
+    Projectile(Vector2D Location, Vector2D Size, float Speed, Color Color)
+        : Entity(Location, Size, Speed, Color)
+    {
+    }
+
     virtual void Update(const float dt) override;
 };

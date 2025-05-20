@@ -15,7 +15,7 @@ void ProjectileComponent::Shoot(const std::chrono::milliseconds time)
     if (DidTimerEnd(startTime, time))
     {
         //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
-        projectiles.emplace_back(Location, Size, Speed, Colors::MakeColor(255, 0, 255));
+        projectiles.emplace_back(Location, Size, Speed, color);
         StartTimer(startTime);
     }
 }

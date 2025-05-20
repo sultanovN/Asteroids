@@ -16,6 +16,8 @@ protected:
 public:
     Entity(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
 
+    Entity(Vector2D Location, Vector2D Size, float Speed, Color Color);
+
     Vector2D GetLocation() const { return Location; }
 
     Vector2D GetSize() const { return Size; }

@@ -1,7 +1,5 @@
 #include "Player.h"
 
-//remove GInterface
-
 Player::Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f,
     uint32_t Color = Colors::Red, int8_t Health = 2,
     std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
