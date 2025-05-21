@@ -22,3 +22,6 @@ windows.h \
 
 The game doesn't have asteroids :)
 
+![image](Asteroids_bonus.png)
+
+![image](preview2.png)
