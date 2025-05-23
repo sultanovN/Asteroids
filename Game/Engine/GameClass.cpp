@@ -119,11 +119,17 @@ void Game::gameLoop(float dt)
             player.ProjComponent.CollisionRect(enemy.at(i).Health, 1,
                 enemy.at(i).isAlive, enemy.at(i).GetLocation(), enemy.at(i).GetSize());
             int timeShoot;
+
+            // change enemy proj component
+            // right now projectiles dissapear if enemy gets destroyed
+            // external one proj component for all enemies
+            // proj comp randomly selects existing enemy from array and shoots from its location
             enemy.at(i).ProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(30, 80) * 100));
 
             enemy.at(i).ProjComponent.CollisionRect(player.Health, 1,
                 player.isAlive, player.GetLocation(), player.GetSize());
 
+            player.ProjComponent.CollisionRect(enemy.at(i).ProjComponent.GetProjectiles());
             //enemy.at(i).ProjComponent.CollisionProj(player.ProjComponent);
 
             if (!enemy.at(i).isAlive)

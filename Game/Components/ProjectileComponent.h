@@ -14,7 +14,7 @@ private:
 public:
     ProjectileComponent(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
 
-    std::vector<Projectile> GetProjectilesLocation() { return projectiles; }
+    std::vector<Projectile>& GetProjectiles() { return projectiles; }
 
     void SetSpeed(const float Speed) { this->Speed = Speed; }
 
@@ -26,7 +26,7 @@ public:
 
     void CollisionRect(int8_t& EnemyHealth, const uint8_t Damage, bool& isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize);
 
-    void CollisionProj(ProjectileComponent& proj);
+    void CollisionRect(std::vector<Projectile> &EnemyProjectiles);
 
     //void EraseProjectile(const int i)
     //{

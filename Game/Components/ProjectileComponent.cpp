@@ -39,18 +39,20 @@ void ProjectileComponent::CollisionRect(int8_t& EnemyHealth, const uint8_t Damag
 }
 
 //Collision with enemy projectiles
-void ProjectileComponent::CollisionProj(ProjectileComponent& proj)
+void ProjectileComponent::CollisionRect(std::vector<Projectile>& EnemyProjectiles)
 {
     for (int i = 0; i < projectiles.size(); i++)
     {
-        for (int j = 0; j < proj.projectiles.size(); j++)
+        for (int j = 0; j < EnemyProjectiles.size(); j++)
         {
             //proj.projectiles.at(j).Collision(projectiles.at(i))
-            if (projectiles.at(i).Collision(proj.projectiles.at(j)))
+            if (projectiles.at(i).Collision(EnemyProjectiles.at(j)))
             {
                 //proj.EraseProjectile(j);
               
                 projectiles.erase(projectiles.begin() + i);
+
+                EnemyProjectiles.erase(EnemyProjectiles.begin() + j);
                 //projectiles.at(i).SetLocation(Location.X, Location.Y);
                 //StartTimer(startTime);
             }
