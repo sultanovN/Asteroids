@@ -6,8 +6,8 @@ class Button: public Entity
 {
     uint8_t buttonOrderNum;
 public:
-    Button(Vector2D Location, Vector2D Size, uint8_t buttonOrderNum, uint32_t Color = Colors::Red)
-        : Entity(Location, Size, 0.f, Color), buttonOrderNum(buttonOrderNum)
+    Button(Vector2D Location, Vector2D Size, uint8_t buttonOrderNum, uint32_t Color = 0xCD0000)
+        : Entity(Location, Size, Color), buttonOrderNum(buttonOrderNum)
     {
     }
 

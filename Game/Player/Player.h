@@ -10,6 +10,7 @@ class Player: public Entity
 {
 private:
     std::chrono::milliseconds projectilefrequency;
+    float Speed;
    // std::vector< Vector2D> projectilesLocation;
     //std::chrono::steady_clock::time_point startTime;
     //Vector2D ProjectileSize;
@@ -22,7 +23,9 @@ public:
     bool MouseMode = false;
     int KillCount = 0;
 
-    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, {10.f, 10.f}, 500.f, Colors::Blue};
+    float GetSpeed()const { return Speed; };
+
+    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, {10.f, 25.f}, 500.f, Colors::Blue};
 
     void Control(float dt);
 

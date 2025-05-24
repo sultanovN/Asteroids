@@ -1,9 +1,9 @@
 #include "ProjectileComponent.h"
 #include "../Engine/GTimer.h"
 
-ProjectileComponent::ProjectileComponent(Vector2D Location, Vector2D Size = { 10.f, 10.f }, float Speed = 400.f,
+ProjectileComponent::ProjectileComponent(Vector2D Location, Vector2D Size = { 10.f, 25.f }, float Speed = 400.f,
     uint32_t Color = Colors::MakeColor(255, 0, 255))
-    : Entity(Location, Size, Speed, Color)
+    : Entity(Location, Size, Color), Speed(Speed)
 {
     projectiles.reserve(18);
 }

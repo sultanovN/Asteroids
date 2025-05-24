@@ -159,6 +159,7 @@ void Game::gameLoop(float dt)
     }
 }
 
+Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 
 void Game::gameDraw()
 {
@@ -166,7 +167,8 @@ void Game::gameDraw()
     memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
 
     //Background color
-    DrawRectangle(0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT, 0xFFFFFF);
+    Background.Draw();
+    //DrawRectangle(0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT, 0xFFFFFF);
 
     switch (GameMode)
     {

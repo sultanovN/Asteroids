@@ -2,7 +2,7 @@
 
 Enemy::Enemy(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f, int8_t Health = 2, uint32_t Color = Colors::Red,
     bool MovingRight = true)
-    :Entity(Location, Size, Speed, Color), Health(Health), MovingRight(MovingRight)
+    :Entity(Location, Size, Color), Health(Health), MovingRight(MovingRight), Speed(Speed)
 {
 }
 

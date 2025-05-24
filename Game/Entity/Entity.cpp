@@ -1,12 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(Vector2D Location, Vector2D Size, float Speed = 0.f, uint32_t Color = Colors::Red)
-    : Location(Location), Size(Size), Speed(Speed), color(Color)
+Entity::Entity(Vector2D Location, Vector2D Size, uint32_t Color = Colors::Red)
+    : Location(Location), Size(Size), color(Color)
 {
 }
 
-Entity::Entity(Vector2D Location, Vector2D Size, float Speed = 0.f, Color Color = Colors::Red)
-    : Location(Location), Size(Size), Speed(Speed), color(Color)
+Entity::Entity(Vector2D Location, Vector2D Size, Color Color = Colors::Red)
+    : Location(Location), Size(Size), color(Color)
 {
 }
 

@@ -15,12 +15,14 @@ enum class EBonusTypes
 class Bonus: public Entity
 {
     EBonusTypes BonusType;
+    float Speed;
 public:
     Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, 
-        uint32_t Color = Colors::MakeColor(255, 0, 0), float Speed = 200.f, Vector2D Size = { 30.f, 30.f })
-        : Entity(Location, Size, Speed, Color), BonusType(BonusType)
+        uint32_t Color = Colors::MakeColor(255, 0, 0), float Speed = 200.f, Vector2D Size = { 45.f, 30.f })
+        : Entity(Location, Size, Color), BonusType(BonusType), Speed(Speed)
     {
     }
+    float GetSpeed()const { return Speed; };
 
     EBonusTypes GetBonusType()const { return BonusType; }
     bool ColorIncreasing = true;
@@ -35,20 +37,20 @@ public:
         //Color glow
         if (ColorIncreasing)
         {
-            if (color.GetR() >= 253)
+            if (color.GetG() >= 253)
                 ColorIncreasing = false;
             else
             {
-                color = Color(color.GetR() + 6, 0, color.GetB() - 6);
+                color = Color(color.GetR(), color.GetG() + 6, color.GetB() - 6);
             }
         }
         else
         {
-            if (color.GetR() <= 20)
+            if (color.GetG() <= 20)
                 ColorIncreasing = true;
             else
             {
-                color = Color(color.GetR() - 6, 0, color.GetB() + 6);
+                color = Color(color.GetR(), color.GetG() - 6, color.GetB() + 6);
             }
         }
     };

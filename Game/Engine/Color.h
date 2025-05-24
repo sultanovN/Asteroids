@@ -41,5 +41,8 @@ namespace Colors
     static constexpr uint32_t Orange =    MakeColor(255u, 128u, 0u);
     static constexpr uint32_t Yellow =    MakeColor(255u, 255u, 0u);
     static constexpr uint32_t LightBlue = 0x00FFFF;
+    static constexpr uint32_t White =     0xFFFFFF;
+    static constexpr uint32_t Black =     0x000000;
+
 };
 

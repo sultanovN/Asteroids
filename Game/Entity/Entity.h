@@ -10,13 +10,13 @@ class Entity
 protected:
     Vector2D Location;
     Vector2D Size;
-    float Speed;
+    //float Speed;
     Color color;
 
 public:
-    Entity(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
+    Entity(Vector2D Location, Vector2D Size, uint32_t Color);
 
-    Entity(Vector2D Location, Vector2D Size, float Speed, Color Color);
+    Entity(Vector2D Location, Vector2D Size,Color Color);
 
     Vector2D GetLocation() const { return Location; }
 
@@ -24,7 +24,7 @@ public:
 
     //uint32_t& GetColor() { return Colors::MakeColor(Color); }
 
-    float GetSpeed()const { return Speed; }
+    //float GetSpeed()const { return Speed; }
 
     virtual void SetLocation(const float X, const float Y) { Location = { X, Y }; }
 
