@@ -20,7 +20,6 @@ Increase projectile speed
 windows.h \
 \_(ツ)_/ \
 
-The game doesn't have asteroids :)
 
 ![image](Asteroids_bonus.png)
 
