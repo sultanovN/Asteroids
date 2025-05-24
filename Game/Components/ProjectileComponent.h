@@ -30,7 +30,7 @@ public:
 
     void CollisionRect(int8_t& EnemyHealth, const uint8_t Damage, bool& isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize);
 
-    void CollisionRect(std::vector<Projectile> &EnemyProjectiles);
+    void CollisionRect(std::vector<Projectile> &EnemyProjectiles, const bool destructable = true);
 
     //void EraseProjectile(const int i)
     //{

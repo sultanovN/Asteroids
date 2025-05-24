@@ -5,6 +5,7 @@
 int lines[] = { 0,0,0,0 };
 
 ProjectileComponent EnemyProjComponent{ {20.f, 20.f}, {10.f, 25.f}, -400.f, Colors::Red};
+ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f}, {70.f, 70.f}, -80.f, Colors::Brown};
 
 
 
@@ -120,6 +121,15 @@ void Game::gameLoop(float dt)
         //EnemyProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
         EnemyProjComponent.Update(dt);
         EnemyProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+        EnemyProjComponent.CollisionRect(AsteroidsProjComponent.GetProjectiles(), false);
+
+
+        AsteroidsProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(30000, 100000)),
+            Vector2D(RandomNumberInRange(0, 900), 0));
+        AsteroidsProjComponent.Update(dt);
+        AsteroidsProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+        player.ProjComponent.CollisionRect(AsteroidsProjComponent.GetProjectiles(), false);
+
 
         player.ProjComponent.CollisionRect(EnemyProjComponent.GetProjectiles());
         for (int i = 0; i < enemy.size(); i++)
@@ -193,7 +203,7 @@ void Game::gameDraw()
             en.Draw();
         }
         EnemyProjComponent.Draw();
-
+        AsteroidsProjComponent.Draw();
         for (auto bonus : bonuses)
         {
             bonus.Draw();
@@ -225,6 +235,7 @@ void Game::gameDraw()
             en.Draw();
         }
         EnemyProjComponent.Draw();
+        AsteroidsProjComponent.Draw();
 
         for (auto bonus : bonuses)
         {

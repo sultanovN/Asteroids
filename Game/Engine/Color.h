@@ -43,6 +43,7 @@ namespace Colors
     static constexpr uint32_t LightBlue = 0x00FFFF;
     static constexpr uint32_t White =     0xFFFFFF;
     static constexpr uint32_t Black =     0x000000;
+    static constexpr uint32_t Brown =     MakeColor(88u, 57u, 39u);
 
 };
 
