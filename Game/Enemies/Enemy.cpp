@@ -45,10 +45,3 @@ void Enemy::Move(const float dt, int lines[], int linesNum, const int screenWidt
 
     LineMove(dt, lines, linesNum);
 }
-
-void Enemy::Update(const float dt)
-{
-    ProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
-    ProjComponent.Update(dt);
-    
-}

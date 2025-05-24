@@ -24,6 +24,7 @@ public:
     Vector2D GetSize()const { return Size; }
 
     void Shoot(const std::chrono::milliseconds time);
+    void Shoot(const std::chrono::milliseconds time, Vector2D fLocation);
 
     void Move(Vector2D Location);
 

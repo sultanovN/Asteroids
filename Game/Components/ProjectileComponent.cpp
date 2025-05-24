@@ -20,6 +20,16 @@ void ProjectileComponent::Shoot(const std::chrono::milliseconds time)
     }
 }
 
+void ProjectileComponent::Shoot(const std::chrono::milliseconds time, const Vector2D fLocation)
+{
+    if (DidTimerEnd(startTime, time))
+    {
+        //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
+        projectiles.emplace_back(fLocation, Size, Speed, color);
+        StartTimer(startTime);
+    }
+}
+
 //rewrite for parent class of player and enemy to projectile
 void ProjectileComponent::CollisionRect(int8_t& EnemyHealth, const uint8_t Damage, bool& isAlive, const Vector2D EnemyLocation, const Vector2D EnemySize)
 {

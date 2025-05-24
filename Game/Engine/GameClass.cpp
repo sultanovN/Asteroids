@@ -4,6 +4,10 @@
 
 int lines[] = { 0,0,0,0 };
 
+ProjectileComponent EnemyProjComponent{ {20.f, 20.f}, {10.f, 25.f}, -400.f, Colors::Red};
+
+
+
 void Game::GameMenu()
 {
     if ((GameMode == Inter::Menu || GameMode == Inter::GameOver) && StartContinue.isClicking({ get_cursor_x() * 1.f, get_cursor_y() * 1.f },
@@ -70,6 +74,7 @@ void Game::BonusSpawn(Vector2D Location)
 void Game::ReSpawn()
 {
     enemy.clear();
+    EnemyProjComponent.GetProjectiles().clear();
     player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
     3, std::chrono::milliseconds(300) };
 }
@@ -110,6 +115,13 @@ void Game::gameLoop(float dt)
         }
 
         EnemySpawn();
+        EnemyProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(500, 800)),
+            enemy.at(RandomNumberInRange(0, enemy.size() - 1)).GetLocation());
+        //EnemyProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
+        EnemyProjComponent.Update(dt);
+        EnemyProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+
+        player.ProjComponent.CollisionRect(EnemyProjComponent.GetProjectiles());
         for (int i = 0; i < enemy.size(); i++)
         {
             //en.LineMove(dt, lines, 4);
@@ -124,12 +136,11 @@ void Game::gameLoop(float dt)
             // right now projectiles dissapear if enemy gets destroyed
             // external one proj component for all enemies
             // proj comp randomly selects existing enemy from array and shoots from its location
-            enemy.at(i).ProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(30, 80) * 100));
+            // done?
+            //enemy.at(i).ProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(30, 80) * 100));
 
-            enemy.at(i).ProjComponent.CollisionRect(player.Health, 1,
-                player.isAlive, player.GetLocation(), player.GetSize());
+            //enemy.at(i).ProjComponent.CollisionRect(player.Health, 1,player.isAlive, player.GetLocation(), player.GetSize());
 
-            player.ProjComponent.CollisionRect(enemy.at(i).ProjComponent.GetProjectiles());
             //enemy.at(i).ProjComponent.CollisionProj(player.ProjComponent);
 
             if (!enemy.at(i).isAlive)
@@ -138,6 +149,8 @@ void Game::gameLoop(float dt)
                 enemy.erase(enemy.begin() + i);
             }
         }
+        
+
         break;
     }
     case Inter::PauseMenu:
@@ -178,8 +191,9 @@ void Game::gameDraw()
         for (auto en : enemy)
         {
             en.Draw();
-            en.ProjComponent.Draw();
         }
+        EnemyProjComponent.Draw();
+
         for (auto bonus : bonuses)
         {
             bonus.Draw();
@@ -209,8 +223,9 @@ void Game::gameDraw()
         for (auto en : enemy)
         {
             en.Draw();
-            en.ProjComponent.Draw();
         }
+        EnemyProjComponent.Draw();
+
         for (auto bonus : bonuses)
         {
             bonus.Draw();
