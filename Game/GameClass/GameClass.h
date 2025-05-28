@@ -4,9 +4,10 @@
 #include "../Enemies/Enemy.h"
 //#include "../Enemies/LaserEnemy.h"
 #include "../Components/Bonus.h"
-#include "UserInterface.h"
+#include "../UI/UserInterface.h"
+#include "../Engine/Surface.h"
 
-class Game
+static class Game
 {
     Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
     3, std::chrono::milliseconds(300) };
@@ -30,12 +31,10 @@ class Game
     };
 
 public:
-    Game()
-    {
-        enemy.reserve(16);
-        bonuses.reserve(4);
-    }
+    Game();
     
+    Surface sprite = Surface(50, 50);
+
     void gameLoop(float dt);
     void gameDraw();
     void GameMenu();

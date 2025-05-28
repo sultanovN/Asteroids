@@ -146,11 +146,11 @@
     <ClInclude Include="Game\Components\Bonus.h" />
     <ClInclude Include="Game\Components\Projectile.h" />
     <ClInclude Include="Game\Engine\Color.h" />
-    <ClInclude Include="Game\Engine\GameClass.h" />
-    <ClInclude Include="Game\Engine\Graphics.h" />
+    <ClInclude Include="Game\Engine\Surface.h" />
+    <ClInclude Include="Game\GameClass\GameClass.h" />
     <ClInclude Include="Game\Engine\GTimer.h" />
     <ClInclude Include="Game\Components\ProjectileComponent.h" />
-    <ClInclude Include="Game\Engine\UserInterface.h" />
+    <ClInclude Include="Game\UI\UserInterface.h" />
     <ClInclude Include="Game\Engine\Vector2D.h" />
     <ClInclude Include="Game\Enemies\Enemy.h" />
     <ClInclude Include="Game\Engine\Engine.h" />
@@ -161,7 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Components\Projectile.cpp" />
-    <ClCompile Include="Game\Engine\GameClass.cpp" />
+    <ClCompile Include="Game\Engine\Surface.cpp" />
+    <ClCompile Include="Game\GameClass\GameClass.cpp" />
     <ClCompile Include="Game\Components\ProjectileComponent.cpp" />
     <ClCompile Include="Game\Enemies\Enemy.cpp" />
     <ClCompile Include="Game\Engine\Engine.cpp" />

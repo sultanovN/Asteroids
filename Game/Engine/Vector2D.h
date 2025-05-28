@@ -2,8 +2,9 @@
 #include <cmath>
 void PixelDraw(int x, int y, uint32_t Color);
 
-struct Vector2D
+class Vector2D
 {
+public:
     float X, Y;
 
     Vector2D(float X = 0.f, float Y = 0.f)

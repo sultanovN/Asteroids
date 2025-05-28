@@ -10,6 +10,11 @@ void PixelDraw(int x, int y, uint32_t Color)
     buffer[y][x] = Color;
 }
 
+void PixelDraw(int x, int y, Color c)
+{
+    buffer[y][x] = c.fullColor;
+}
+
 
 void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, uint32_t Color)
 {
@@ -20,6 +25,17 @@ void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, u
             {
                 PixelDraw(x, y, Color);
             }
+        }
+}
+
+void DrawSprite(int x, int y, const Surface& s)
+{
+    const int width = s.GetWidth();
+    const int height = s.GetHeight();
+    for(int sx = 0; sx < width; sx++)
+        for (int sy = 0; sy < height; sy++)
+        {
+            PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));
         }
 }
 

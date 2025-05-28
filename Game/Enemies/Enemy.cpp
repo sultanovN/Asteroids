@@ -14,7 +14,7 @@ void Enemy::LineMove(const float dt, int lines[], int linesNum)
         {
             if ((Location.Y < (100.0f * (j + 1))) && lines[j] < 4)
             {
-                Location.Y += (Speed/2) * dt;
+                Location.Y += (Speed/2.f) * dt;
             }
             else if (Location.Y >= (100.0f * (j + 1)) && lines[j] < 4)
             {
@@ -37,9 +37,13 @@ void Enemy::Move(const float dt, int lines[], int linesNum, const int screenWidt
     if (MovingRight)
     {
         Location.X += Speed * dt;
+        //Location.Y += 100 * dt;
+        Location.Y += cos(100 * dt);
     }
     else
     {
+        //Location.Y -= 100 * dt;
+        Location.Y -= cos(100 * dt);
         Location.X -= Speed * dt;
     }
 

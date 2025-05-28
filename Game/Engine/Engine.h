@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "Surface.h"
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
@@ -13,9 +14,9 @@
 #  define VK_RIGHT  0x27
 #  define VK_DOWN   0x28
 #  define VK_RETURN 0x0D
-
 #define VK_A 0x41 //65
 #define VK_D 0x44 //68
+
 #endif
 
 // backbuffer
@@ -23,6 +24,8 @@ extern uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
 void PixelDraw(int x, int y, uint32_t Color);
 void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, uint32_t Color);
+
+void DrawSprite(int x, int y, const Surface& s);
 
 bool is_window_active();
 

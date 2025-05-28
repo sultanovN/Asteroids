@@ -1,12 +1,13 @@
 #include "GameClass.h"
-#include "Engine.h"
-#include "RandomNumber.h"
+#include "../Engine/Engine.h"
+#include "../Engine/RandomNumber.h"
 
-int lines[] = { 0,0,0,0 };
+static int lines[] = { 0,0,0,0 };
 
-ProjectileComponent EnemyProjComponent{ {20.f, 20.f}, {10.f, 25.f}, -400.f, Colors::Red};
-ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f}, {70.f, 70.f}, -80.f, Colors::Brown};
+static ProjectileComponent EnemyProjComponent{ {20.f, 20.f}, {10.f, 25.f}, -400.f, Colors::Red};
+static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f}, {70.f, 70.f}, -80.f, Colors::Brown};
 
+static Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 
 
 void Game::GameMenu()
@@ -80,6 +81,17 @@ void Game::ReSpawn()
     3, std::chrono::milliseconds(300) };
 }
 
+
+Game::Game()
+{
+    for(int x = 0; x < sprite.GetWidth(); x++)
+        for (int y = 0; y < sprite.GetHeight(); y++)
+        {
+            sprite.PutPixel(x, y, Colors::Orange);
+        }
+    enemy.reserve(16);
+    bonuses.reserve(4);
+}
 
 void Game::gameLoop(float dt)
 {
@@ -182,13 +194,9 @@ void Game::gameLoop(float dt)
     }
 }
 
-Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 
 void Game::gameDraw()
 {
-    // clear backbuffer
-    memset(buffer, 0, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-
     //Background color
     Background.Draw();
     //DrawRectangle(0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT, 0xFFFFFF);
@@ -219,6 +227,8 @@ void Game::gameDraw()
     {
         StartContinue.Draw();
         Exit.Draw();
+        DrawSprite(400, 400, sprite);
+
         break;
     }
     case Inter::PauseMenu:

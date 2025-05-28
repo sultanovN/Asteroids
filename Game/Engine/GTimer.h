@@ -2,7 +2,7 @@
 #include <chrono>
 
 //how timer works
-// in a loop
+// 
 //if (DidTimerEnd(startTime))
 //{
 //    doStuff
