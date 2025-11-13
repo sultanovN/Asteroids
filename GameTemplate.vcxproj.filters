@@ -85,5 +85,16 @@
     <ClInclude Include="Game\Engine\Surface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Engine\TinkerWindows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Images\link.bmp" />
+    <Image Include="Game\Engine\link.bmp" />
+    <Image Include="Game\Images\dib.bmp" />
+    <Image Include="Game\Images\dib32.bmp" />
+    <Image Include="Game\Images\dibr.bmp" />
+    <Image Include="Game\Images\rgb.bmp" />
   </ItemGroup>
 </Project>

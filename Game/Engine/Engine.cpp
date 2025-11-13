@@ -1,6 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "Engine.h"
-#include <windows.h>
+#include "TinkerWindows.h"
+//#include <windows.h>
 #include <stdlib.h>
 
 uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { 0 };
@@ -28,11 +29,26 @@ void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, u
         }
 }
 
-void DrawSprite(int x, int y, const Surface& s)
+void DrawSprite(int x, int y, const Surface& s, Color Chroma)
 {
     const int width = s.GetWidth();
     const int height = s.GetHeight();
     for(int sx = 0; sx < width; sx++)
+        for (int sy = 0; sy < height; sy++)
+        {
+            if(!(s.GetPixel(sx, sy).fullColor == Chroma.fullColor))
+            {
+                PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));
+
+            }
+        }
+}
+
+void DrawSpriteNonChroma(int x, int y, const Surface& s)
+{
+    const int width = s.GetWidth();
+    const int height = s.GetHeight();
+    for (int sx = 0; sx < width; sx++)
         for (int sy = 0; sy < height; sy++)
         {
             PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));

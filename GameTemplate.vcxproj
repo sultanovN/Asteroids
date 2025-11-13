@@ -147,6 +147,7 @@
     <ClInclude Include="Game\Components\Projectile.h" />
     <ClInclude Include="Game\Engine\Color.h" />
     <ClInclude Include="Game\Engine\Surface.h" />
+    <ClInclude Include="Game\Engine\TinkerWindows.h" />
     <ClInclude Include="Game\GameClass\GameClass.h" />
     <ClInclude Include="Game\Engine\GTimer.h" />
     <ClInclude Include="Game\Components\ProjectileComponent.h" />
@@ -169,6 +170,14 @@
     <ClCompile Include="Game\Entity\Entity.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Engine\link.bmp" />
+    <Image Include="Game\Images\dib.bmp" />
+    <Image Include="Game\Images\dib32.bmp" />
+    <Image Include="Game\Images\dibr.bmp" />
+    <Image Include="Game\Images\link.bmp" />
+    <Image Include="Game\Images\rgb.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

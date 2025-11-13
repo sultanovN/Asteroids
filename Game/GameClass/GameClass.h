@@ -29,11 +29,13 @@ static class Game
         LevelSelect,
         GameCompleted
     };
+    //C:/Projects/Asteroids/Game
+    Surface TestSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue.bmp" );
+    Surface BackGroundSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue(2).bmp" );
 
 public:
     Game();
     
-    Surface sprite = Surface(50, 50);
 
     void gameLoop(float dt);
     void gameDraw();

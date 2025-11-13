@@ -1,5 +1,39 @@
 #include "Surface.h"
+#include "TinkerWindows.h"
 #include <cassert>
+#include <fstream>
+
+Surface::Surface(const std::string& filename)
+{
+	std::ifstream file(filename, std::ios::binary);
+	assert(file);
+	BITMAPFILEHEADER bmFileHeader;
+
+	file.read(reinterpret_cast<char*>(&bmFileHeader), sizeof(bmFileHeader));
+
+	BITMAPINFOHEADER bmInfoHeader;
+	file.read(reinterpret_cast<char*>(&bmInfoHeader), sizeof(bmInfoHeader));
+
+	assert(bmInfoHeader.biBitCount == 24);
+	assert(bmInfoHeader.biCompression == BI_RGB);
+
+	width = bmInfoHeader.biWidth;
+	height = bmInfoHeader.biHeight;
+
+	pPixels = new Color[width * height];
+
+	file.seekg(bmFileHeader.bfOffBits);
+	const int padding = (4 - (width * 3) % 4) % 4;
+
+	for (int y = height - 1; y >= 0; y--)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			PutPixel(x, y, Color( file.get(), file.get(), file.get() ));
+		}
+		file.seekg(padding, std::ios::cur);
+	}
+}
 
 Surface::Surface(int width, int height)
 	: width(width), height(height), pPixels(new Color[width*height])
@@ -37,6 +71,8 @@ Surface& Surface::operator=(const Surface& rhs)
 	}
 	return *this;
 }
+
+
 
 void Surface::PutPixel(int x, int y, Color c)
 {

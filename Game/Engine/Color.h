@@ -5,16 +5,21 @@
 class Color
 {
 public:
-    uint32_t fullColor;
+    unsigned int fullColor;
 
     constexpr Color() : fullColor() {}
 
-    constexpr Color(uint8_t r, uint8_t g, uint8_t b)
+    constexpr Color(unsigned char r, unsigned char g, unsigned char b)
         : fullColor(r << 16u | g << 8u | b)
     {
     }
 
-    constexpr Color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+    /*constexpr Color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+        : fullColor(a << 24u | r << 16u | g << 8u | b)
+    {
+    }*/
+
+    constexpr Color(unsigned char a, unsigned char r, unsigned char g, unsigned char b)
         : fullColor(a << 24u | r << 16u | g << 8u | b)
     {
     }
@@ -27,9 +32,19 @@ public:
         return *this;
     }
 
-    Color(uint32_t color)
+    Color(unsigned int color)
         :fullColor(color)
     {
+    }
+
+    Color operator==(Color r)
+    {
+        return this->fullColor == r.fullColor;
+    }
+
+    Color operator==(unsigned int r)
+    {
+        return this->fullColor == r;
     }
 
     //uint8_t Red;
@@ -45,9 +60,9 @@ public:
 
     
 
-    const uint8_t GetR() const { return (fullColor >> 16u)  & 0xffu; }
-    const uint8_t GetG() const { return (fullColor >> 8u) & 0xffu;}
-    const uint8_t GetB() const { return (fullColor) & 0xffu;}
+    const unsigned char GetR() const { return (fullColor >> 16u)  & 0xffu; }
+    const unsigned char GetG() const { return (fullColor >> 8u) & 0xffu;}
+    const unsigned char GetB() const { return (fullColor) & 0xffu;}
 };
 
 namespace Colors
@@ -62,15 +77,16 @@ namespace Colors
         return color.GetR() << 16u | color.GetG() << 8u | color.GetB();
     }
 
-    static constexpr uint32_t Red =       MakeColor(255u, 0u, 0u);
+    static constexpr uint32_t Red =       0xFF0000;
     static constexpr uint32_t Green =     MakeColor(0u, 255u, 0u);
     static constexpr uint32_t Blue =      0x0000FF;//255
     static constexpr uint32_t Orange =    MakeColor(255u, 128u, 0u);
-    static constexpr uint32_t Yellow =    MakeColor(255u, 255u, 0u);
+    static constexpr uint32_t Yellow =    0xFFFF00;
     static constexpr uint32_t LightBlue = 0x00FFFFu;
     static constexpr uint32_t White =     0xFFFFFFu;
     static constexpr uint32_t Black =     0x000000u;
     static constexpr uint32_t Brown =     MakeColor(88u, 57u, 39u);
+    static constexpr uint32_t Magenta =   0xFF00FF;
 
 };
 

@@ -9,6 +9,7 @@ static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f}, {70.f, 70.f}, -
 
 static Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 
+Vector2D SpriteLocation{ 400.f, 400.f };
 
 void Game::GameMenu()
 {
@@ -84,11 +85,11 @@ void Game::ReSpawn()
 
 Game::Game()
 {
-    for(int x = 0; x < sprite.GetWidth(); x++)
-        for (int y = 0; y < sprite.GetHeight(); y++)
+    /*for(int x = 0; x < TestSprite.GetWidth(); x++)
+        for (int y = 0; y < TestSprite.GetHeight(); y++)
         {
-            sprite.PutPixel(x, y, Colors::Orange);
-        }
+            TestSprite.PutPixel(x, y, Colors::Orange);
+        }*/
     enemy.reserve(16);
     bonuses.reserve(4);
 }
@@ -100,6 +101,8 @@ void Game::gameLoop(float dt)
     case Inter::Menu:
     {
         GameMenu();
+        SpriteLocation.X += 20.f * dt;
+
         break;
     }
     case Inter::Game:
@@ -116,6 +119,7 @@ void Game::gameLoop(float dt)
             break;
         }
         player.Update(dt);
+
 
         for (int i = 0; i < bonuses.size(); i++)
         {
@@ -198,7 +202,8 @@ void Game::gameLoop(float dt)
 void Game::gameDraw()
 {
     //Background color
-    Background.Draw();
+    DrawSpriteNonChroma(0, 0, BackGroundSprite);
+    //Background.Draw();
     //DrawRectangle(0.f, 0.f, SCREEN_WIDTH, SCREEN_HEIGHT, 0xFFFFFF);
 
     switch (GameMode)
@@ -227,7 +232,7 @@ void Game::gameDraw()
     {
         StartContinue.Draw();
         Exit.Draw();
-        DrawSprite(400, 400, sprite);
+        DrawSprite(SpriteLocation.X, SpriteLocation.Y, TestSprite, Colors::Magenta);
 
         break;
     }

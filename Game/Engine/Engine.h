@@ -25,7 +25,9 @@ extern uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 void PixelDraw(int x, int y, uint32_t Color);
 void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, uint32_t Color);
 
-void DrawSprite(int x, int y, const Surface& s);
+void DrawSprite(int x, int y, const Surface& s, Color Chroma);
+
+void DrawSpriteNonChroma(int x, int y, const Surface& s);
 
 bool is_window_active();
 
