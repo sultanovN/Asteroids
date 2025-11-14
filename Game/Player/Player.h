@@ -11,6 +11,8 @@ class Player: public Entity
 private:
     std::chrono::milliseconds projectilefrequency;
     float Speed;
+    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/playerShip1_blue.bmp");
+
    // std::vector< Vector2D> projectilesLocation;
     //std::chrono::steady_clock::time_point startTime;
     //Vector2D ProjectileSize;

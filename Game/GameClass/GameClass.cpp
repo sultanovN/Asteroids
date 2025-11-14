@@ -211,9 +211,11 @@ void Game::gameDraw()
     case Inter::Game:
     {
         player.Draw();
-        for (auto en : enemy)
+        for (auto enemy_i : enemy)
         {
-            en.Draw();
+            enemy_i.Draw();
+
+            //DrawSprite(enemy_i.GetLocation().X, enemy_i.GetLocation().Y, EnemySprite, Colors::Magenta);
         }
         EnemyProjComponent.Draw();
         AsteroidsProjComponent.Draw();
@@ -232,7 +234,6 @@ void Game::gameDraw()
     {
         StartContinue.Draw();
         Exit.Draw();
-        DrawSprite(SpriteLocation.X, SpriteLocation.Y, TestSprite, Colors::Magenta);
 
         break;
     }

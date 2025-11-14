@@ -33,15 +33,18 @@ void DrawSprite(int x, int y, const Surface& s, Color Chroma)
 {
     const int width = s.GetWidth();
     const int height = s.GetHeight();
-    for(int sx = 0; sx < width; sx++)
-        for (int sy = 0; sy < height; sy++)
-        {
-            if(!(s.GetPixel(sx, sy).fullColor == Chroma.fullColor))
+    if (0 <= x < SCREEN_WIDTH && 0 <= y < SCREEN_HEIGHT)
+    {
+        for (int sx = 0; sx < width; sx++)
+            for (int sy = 0; sy < height; sy++)
             {
-                PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));
-
+                if (!(s.GetPixel(sx, sy).fullColor == Chroma.fullColor))
+                {
+                    PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));
+                }
             }
-        }
+    }
+    
 }
 
 void DrawSpriteNonChroma(int x, int y, const Surface& s)

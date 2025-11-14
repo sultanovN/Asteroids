@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Vector2D Location, Vector2D Size = { 40.f, 50.f }, float Speed = 300.f,
+Player::Player(Vector2D Location, Vector2D Size = { 99.f, 75.f }, float Speed = 300.f,
     uint32_t Color = Colors::Red, int8_t Health = 2,
     std::chrono::milliseconds projectilefrequency = std::chrono::milliseconds(300))
     : Entity(Location, Size,Color), Health(Health), projectilefrequency(projectilefrequency), Speed(Speed)
@@ -22,6 +22,8 @@ bool Player::PressedExit()
 const void Player::Draw()
 {
     Entity::Draw();
+
+    DrawSprite(Location.X, Location.Y, Sprite, Colors::Magenta);
 
     ProjComponent.Draw();
 }

@@ -9,7 +9,7 @@
 
 static class Game
 {
-    Player player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
+    Player player = Player{ { 500.0f, 600.0f }, { 99.f, 75.f }, 500.f, Colors::MakeColor(125, 0, 125),
     3, std::chrono::milliseconds(300) };
     std::vector<Enemy> enemy;
     std::vector<Bonus> bonuses;
@@ -29,9 +29,11 @@ static class Game
         LevelSelect,
         GameCompleted
     };
+
     //C:/Projects/Asteroids/Game
     Surface TestSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue.bmp" );
     Surface BackGroundSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue(2).bmp" );
+    Surface EnemySprite = Surface( "C:/Projects/Asteroids/Game/Images/Enemies/enemyRed1.bmp" );
 
 public:
     Game();
