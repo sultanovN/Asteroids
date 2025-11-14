@@ -16,10 +16,6 @@ Heal by 1 point\
 Increase shooting speed\
 Increase projectile speed
 
-##Dependency:
-windows.h \
-\_(ツ)_/ \
-
 
 ![image](Asteroids_bonus.png)
 
