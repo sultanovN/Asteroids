@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "Surface.h"
+#include "../Entity/Entity.h"
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
@@ -27,7 +28,11 @@ void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, u
 
 void DrawSprite(int x, int y, const Surface& s, Color Chroma);
 
+void DrawSprite(int x, int y, const Entity& ent, const Surface& s, Color Chroma);
+
 void DrawSpriteNonChroma(int x, int y, const Surface& s);
+
+void DrawSpriteNonChroma(int x, int y, const Entity& ent, const Surface& s);
 
 bool is_window_active();
 

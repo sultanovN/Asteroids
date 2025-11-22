@@ -23,7 +23,20 @@ const void Player::Draw()
 {
     Entity::Draw();
 
-    DrawSprite(Location.X, Location.Y, Sprite, Colors::Magenta);
+    DrawSprite(Location.X, Location.Y, CurrentSpriteRegion, Sprite, Colors::Magenta);
+
+
+    /*if (Idle)
+    {
+        DrawSprite(Location.X, Location.Y, Idle_2, Sprite, Colors::Magenta);
+        Idle = false;
+    }
+    else
+    {
+        DrawSprite(Location.X, Location.Y, Idle_1, Sprite, Colors::Magenta);
+        Idle = true;
+    }*/
+
 
     ProjComponent.Draw();
 }
@@ -59,11 +72,16 @@ void Player::Control(float dt)
     if ((is_key_pressed(VK_RIGHT) || is_key_pressed(VK_D)) && (GetLocation().X + GetSize().X < SCREEN_WIDTH))
     {
         SetLocation(GetLocation().X + 400.f * dt, GetLocation().Y);
+        CurrentSpriteRegion = RightRegion;
     }
-
-    if ((is_key_pressed(VK_LEFT) || is_key_pressed(VK_A)) && (GetLocation().X > 0))
+    else if ((is_key_pressed(VK_LEFT) || is_key_pressed(VK_A)) && (GetLocation().X > 0))
     {
         SetLocation(GetLocation().X - 400.f * dt, GetLocation().Y);
+        CurrentSpriteRegion = LeftRegion;
+    }
+    else
+    {
+        CurrentSpriteRegion = Idle_1;
     }
 
     if (is_key_pressed(VK_SPACE) || is_mouse_button_pressed(0))
@@ -71,8 +89,9 @@ void Player::Control(float dt)
         ProjComponent.Shoot(projectilefrequency);
     }
 
+    //is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || 
 
-    if ((is_mouse_button_pressed(0) || is_mouse_button_pressed(1) || is_key_pressed(VK_RETURN)) && !MouseMode)
+    if ((is_key_pressed(VK_RETURN)) && !MouseMode)
     {
         MouseMode = true;
     }
@@ -82,7 +101,19 @@ void Player::Control(float dt)
 
     if (MouseMode && (get_cursor_x() < (SCREEN_WIDTH - GetSize().X / 2) && (get_cursor_x() > 0)))
     {
+        if ((get_cursor_x() - PreviousCursorLocationX) < -3)
+        {
+            CurrentSpriteRegion = LeftRegion;
+        }
+        else if ((get_cursor_x() - PreviousCursorLocationX) > 3)
+        {
+            CurrentSpriteRegion = RightRegion;
+        }
+        else
+            CurrentSpriteRegion = Idle_1;
         SetLocation(get_cursor_x() + 400.f * dt, GetLocation().Y);
+        PreviousCursorLocationX = get_cursor_x();
+
     }
 }
 

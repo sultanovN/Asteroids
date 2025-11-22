@@ -3,6 +3,7 @@
 #include "TinkerWindows.h"
 //#include <windows.h>
 #include <stdlib.h>
+#include <assert.h>
 
 uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH] = { 0 };
 
@@ -15,7 +16,6 @@ void PixelDraw(int x, int y, Color c)
 {
     buffer[y][x] = c.fullColor;
 }
-
 
 void DrawRectangle(float LocationX, float LocationY, float SizeX, float SizeY, uint32_t Color)
 {
@@ -44,7 +44,22 @@ void DrawSprite(int x, int y, const Surface& s, Color Chroma)
                 }
             }
     }
-    
+}
+ 
+void DrawSprite(int x, int y, const Entity& ent, const Surface& s, Color Chroma)
+{
+    /*assert(ent.GetLocation().X >= 0);
+    assert(ent.GetLocation().X + ent.GetSize().X <= ent.GetSize().X);
+    assert(ent.GetLocation().Y >= 0);
+    assert(ent.GetLocation().Y + ent.GetSize().Y <= ent.GetSize().Y);*/
+    for (int sx = ent.GetLocation().X; sx < ent.GetLocation().X + ent.GetSize().X; sx++)
+        for (int sy = ent.GetLocation().Y; sy < ent.GetLocation().Y + ent.GetSize().Y; sy++)
+        {
+            if (!(s.GetPixel(sx, sy).fullColor == Chroma.fullColor))
+            {
+                PixelDraw(x + sx - ent.GetLocation().X, y + sy - ent.GetLocation().Y, s.GetPixel(sx, sy));
+            }
+        }
 }
 
 void DrawSpriteNonChroma(int x, int y, const Surface& s)
@@ -55,6 +70,19 @@ void DrawSpriteNonChroma(int x, int y, const Surface& s)
         for (int sy = 0; sy < height; sy++)
         {
             PixelDraw(x + sx, y + sy, s.GetPixel(sx, sy));
+        }
+}
+
+void DrawSpriteNonChroma(int x, int y, const Entity& ent, const Surface& s)
+{
+    assert(ent.GetLocation().X >= 0);
+    assert(ent.GetLocation().X + ent.GetSize().X <= ent.GetSize().X);
+    assert(ent.GetLocation().Y >= 0);
+    assert(ent.GetLocation().Y + ent.GetSize().Y <= ent.GetSize().Y);
+    for (int sx = ent.GetLocation().X; sx < ent.GetLocation().X + ent.GetSize().X; sx++)
+        for (int sy = ent.GetLocation().Y; sy < ent.GetLocation().Y + ent.GetSize().Y; sy++)
+        {
+            PixelDraw(x + sx - ent.GetSize().X, y + sy - ent.GetSize().Y, s.GetPixel(sx, sy));
         }
 }
 

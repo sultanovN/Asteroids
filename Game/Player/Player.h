@@ -11,8 +11,18 @@ class Player: public Entity
 private:
     std::chrono::milliseconds projectilefrequency;
     float Speed;
-    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/playerShip1_blue.bmp");
+    //Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/playerShip1_blue.bmp");
+    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/ship_4x.bmp");
 
+    bool Idle = false;
+    Entity Idle_1{ {128, 0}, {63, 95}, Colors::Black };
+    Entity Idle_2{ {128, 96}, {63, 95}, Colors::Black };
+    Entity RightRegion{ {196, 0}, {63, 95}, Colors::Black };
+    Entity LeftRegion{ {68, 0}, {63, 95}, Colors::Black };
+
+    Entity CurrentSpriteRegion = Idle_1;
+
+    int PreviousCursorLocationX = 0;
    // std::vector< Vector2D> projectilesLocation;
     //std::chrono::steady_clock::time_point startTime;
     //Vector2D ProjectileSize;

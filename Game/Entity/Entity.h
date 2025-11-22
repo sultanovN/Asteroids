@@ -28,8 +28,6 @@ public:
 
     virtual void SetLocation(const float X, const float Y) { Location = { X, Y }; }
 
-    //virtual void SetColor(const uint32_t LColor) { Color = LColor; }
-
     virtual bool Collision(const Entity obj)
     {
         return RectRectCollision(this->Location, this->Size,
@@ -41,7 +39,9 @@ public:
         return RectRectCollision(this->Location, this->Size,
             Location, Size);
     }
-    
+
+    //virtual void SetColor(const uint32_t LColor) { Color = LColor; }
+
     //const int screen_width, const int screen_height
 
     virtual const void Draw();
