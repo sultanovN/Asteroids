@@ -23,11 +23,10 @@ Heal by 1 point\
 Increase shooting speed\
 Increase projectile speed
 
-Art from ansimuz
+![image](preview3.png)
+
+Art from ansimuz and kenney
 https://opengameart.org/content/space-ship-shooter-pixel-art-assets \
 https://opengameart.org/users/ansimuz
 
-
-
-
-![image](preview3.png)
+https://opengameart.org/content/space-shooter-redux
