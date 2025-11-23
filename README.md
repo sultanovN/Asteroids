@@ -24,7 +24,7 @@ Increase shooting speed\
 Increase projectile speed
 
 Art from ansimuz
-https://opengameart.org/content/space-ship-shooter-pixel-art-assets
+https://opengameart.org/content/space-ship-shooter-pixel-art-assets \
 https://opengameart.org/users/ansimuz
 
 
