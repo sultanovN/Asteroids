@@ -3,8 +3,11 @@
 Game can be played in x64/Release folder
 
 ## Controls:
+2 Red squares represent Start and Exit buttons
+
 Keyboard: Left and Right arrow or A and D  for movement, SPACE for shooting.\
 Mouse: Click to switch to mouse control, Left click to shoot.
+ESC to open menu: First button resumes game, Second exits
 
 ## Game mechanics
 Health displayed in the lower left corner.\
@@ -17,6 +20,8 @@ Increase shooting speed\
 Increase projectile speed
 
 
-![image](Asteroids_bonus.png)
+![image](preview.png)
 
 ![image](preview2.png)
+
+![image](preview3.png)

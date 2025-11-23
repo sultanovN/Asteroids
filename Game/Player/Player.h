@@ -37,7 +37,7 @@ public:
 
     float GetSpeed()const { return Speed; };
 
-    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, {10.f, 25.f}, 500.f, Colors::Blue};
+    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp"), {24, 28}, {19, 19}, 500.f, Colors::Blue};
 
     void Control(float dt);
 
@@ -54,6 +54,8 @@ public:
     bool PressedExit();
 
     virtual const void Draw() override;
+
+    const Vector2D GetSpriteSize() { return CurrentSpriteRegion.GetSize(); }
 };
 
 //int Loafa = 123;

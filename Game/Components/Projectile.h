@@ -7,15 +7,16 @@ class Projectile : public Entity
     float Speed;
 
     Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp");
+    Vector2D SpriteRegionLocation;
 public:
-    Projectile(Vector2D Location, Vector2D Size, float Speed, uint32_t Color)
-        : Entity(Location, Size, Color), Speed(Speed)
+    Projectile(Vector2D Location, Vector2D Size, float Speed, uint32_t Color, Surface Sprite, Vector2D SpriteRegionLocation)
+        : Entity(Location, Size, Color), Speed(Speed), Sprite(Sprite), SpriteRegionLocation(SpriteRegionLocation)
     {
     }
     float GetSpeed()const { return Speed; };
 
-    Projectile(Vector2D Location, Vector2D Size, float Speed, Color Color)
-        : Entity(Location, Size, Color), Speed(Speed)
+    Projectile(Vector2D Location, Vector2D Size, float Speed, Color Color, Surface Sprite, Vector2D SpriteRegionLocation)
+        : Entity(Location, Size, Color), Speed(Speed), Sprite(Sprite), SpriteRegionLocation(SpriteRegionLocation)
     {
     }
 

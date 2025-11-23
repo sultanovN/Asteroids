@@ -27,6 +27,7 @@ public:
     //float GetSpeed()const { return Speed; }
 
     virtual void SetLocation(const float X, const float Y) { Location = { X, Y }; }
+    virtual void SetSize(const float X, const float Y) { Size = { X, Y }; }
 
     virtual bool Collision(const Entity obj)
     {

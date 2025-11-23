@@ -7,7 +7,9 @@ private:
     bool MovingRight = true;
     bool MovingDown = true;
     float Speed;
+    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/enemy-small_4x.bmp");
 
+    Entity IdleRegion{ {0,0}, {63, 63}, Colors::Black };
 public:
     Enemy(Vector2D Location, Vector2D Size, float Speed, int8_t Health, uint32_t Color, bool MovingRight);
 
@@ -25,4 +27,5 @@ public:
 
     virtual void Move(const float dt, int lines[], int linesNum, const int screenWidth, float playerX);
     
+    virtual const void Draw() override;
 };

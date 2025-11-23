@@ -4,8 +4,8 @@
 
 static int lines[] = { 0,0,0,0 };
 
-static ProjectileComponent EnemyProjComponent{ {20.f, 20.f}, {10.f, 25.f}, -400.f, Colors::Red};
-static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f}, {70.f, 70.f}, -80.f, Colors::Brown};
+static ProjectileComponent EnemyProjComponent{ {20.f, 20.f},Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp"), Vector2D{24, 28}, { 19, 19 }, -400.f, Colors::Red };
+static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f},Surface("C:/Projects/Asteroids/Game/Images/meteorBrown_big4.bmp"), Vector2D{0, 0}, {97, 95}, -80.f, Colors::Brown};
 
 static Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 
@@ -78,7 +78,7 @@ void Game::ReSpawn()
 {
     enemy.clear();
     EnemyProjComponent.GetProjectiles().clear();
-    player = Player{ { 500.0f, 600.0f }, { 50.f, 60.f }, 500.f, Colors::MakeColor(125, 0, 125),
+    player = Player{ { 500.0f, 600.0f }, { 63, 95 }, 500.f, Colors::MakeColor(125, 0, 125),
     3, std::chrono::milliseconds(300) };
 }
 
@@ -136,14 +136,14 @@ void Game::gameLoop(float dt)
             enemy.at(RandomNumberInRange(0, enemy.size() - 1)).GetLocation());
         //EnemyProjComponent.Move({ Location.X + Size.X / 2 - 5.f, Location.Y - 20.f });
         EnemyProjComponent.Update(dt);
-        EnemyProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+        EnemyProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSpriteSize());
         EnemyProjComponent.CollisionRect(AsteroidsProjComponent.GetProjectiles(), false);
 
 
         AsteroidsProjComponent.Shoot(std::chrono::milliseconds(RandomNumberInRange(30000, 100000)),
             Vector2D(RandomNumberInRange(0, 900), 0));
         AsteroidsProjComponent.Update(dt);
-        AsteroidsProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSize());
+        AsteroidsProjComponent.CollisionRect(player.Health, 1, player.isAlive, player.GetLocation(), player.GetSpriteSize());
         player.ProjComponent.CollisionRect(AsteroidsProjComponent.GetProjectiles(), false);
 
 

@@ -1,9 +1,9 @@
 #include "ProjectileComponent.h"
 #include "../Engine/GTimer.h"
 
-ProjectileComponent::ProjectileComponent(Vector2D Location, Vector2D Size = { 10.f, 25.f }, float Speed = 400.f,
+ProjectileComponent::ProjectileComponent(Vector2D Location, Surface Sprite, Vector2D SpriteRegionLocation, Vector2D Size = { 10.f, 25.f }, float Speed = 400.f,
     uint32_t Color = Colors::MakeColor(255, 0, 255))
-    : Entity(Location, Size, Color), Speed(Speed)
+    : Entity(Location, Size, Color), Speed(Speed), Sprite(Sprite), SpriteRegionLocation(SpriteRegionLocation)
 {
     projectiles.reserve(18);
 }
@@ -15,7 +15,7 @@ void ProjectileComponent::Shoot(const std::chrono::milliseconds time)
     if (DidTimerEnd(startTime, time))
     {
         //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
-        projectiles.emplace_back(Location, Size, Speed, color);
+        projectiles.emplace_back(Location, Size, Speed, color, Sprite, SpriteRegionLocation);
         StartTimer(startTime);
     }
 }
@@ -25,7 +25,7 @@ void ProjectileComponent::Shoot(const std::chrono::milliseconds time, const Vect
     if (DidTimerEnd(startTime, time))
     {
         //projectilesLocation.push_back({ Location.X + width / 2 - Size.X/2, Location.Y - 3.f });
-        projectiles.emplace_back(fLocation, Size, Speed, color);
+        projectiles.emplace_back(fLocation, Size, Speed, color, Sprite, SpriteRegionLocation);
         StartTimer(startTime);
     }
 }

@@ -11,9 +11,10 @@ private:
     std::vector<Projectile> projectiles;
     std::chrono::steady_clock::time_point startTime;
     float Speed;
-
+    Surface Sprite;
+    Vector2D SpriteRegionLocation;
 public:
-    ProjectileComponent(Vector2D Location, Vector2D Size, float Speed, uint32_t Color);
+    ProjectileComponent(Vector2D Location, Surface Sprite, Vector2D SpriteRegionLocation, Vector2D Size, float Speed, uint32_t Color);
 
     float GetSpeed()const { return Speed; };
 

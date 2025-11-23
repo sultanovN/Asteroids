@@ -16,6 +16,7 @@ class Bonus: public Entity
 {
     EBonusTypes BonusType;
     float Speed;
+    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/power-up_3x.bmp");
 public:
     Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, 
         uint32_t Color = Colors::MakeColor(255, 0, 0), float Speed = 200.f, Vector2D Size = { 45.f, 30.f })
@@ -54,4 +55,9 @@ public:
             }
         }
     };
+
+    virtual const void Draw() override
+    {
+        DrawSprite(Location.X, Location.Y, Entity{ {0, 0}, {47, 47}, Colors::Black }, Entity{ {0, 0}, { SCREEN_WIDTH, SCREEN_HEIGHT }, Colors::Black }, Sprite, Colors::Magenta);
+    }
 };

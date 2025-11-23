@@ -7,6 +7,7 @@ void Projectile::Update(const float dt)
 
 const void Projectile::Draw()
 {
-    //DrawSprite(GetLocation().X, GetLocation().Y, Entity{ {24, 72}, {19, 47}, Colors::Black }, Sprite, Colors::Magenta);
-    Entity::Draw();
+    //Entity::Draw();
+
+    DrawSprite(GetLocation().X, GetLocation().Y, Entity{ SpriteRegionLocation, {Size.X, Size.Y}, Colors::Black }, Entity{ {0, 0}, { SCREEN_WIDTH, SCREEN_HEIGHT }, Colors::Black }, Sprite, Colors::Magenta);
 }

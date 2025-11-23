@@ -62,6 +62,38 @@ void DrawSprite(int x, int y, const Entity& ent, const Surface& s, Color Chroma)
         }
 }
 
+void DrawSprite(int x, int y, Entity ent, const Entity& clip, const Surface& s, Color Chroma)
+{
+    /*assert(ent.GetLocation().X >= 0);
+    assert(ent.GetLocation().X + ent.GetSize().X <= ent.GetSize().X);
+    assert(ent.GetLocation().Y >= 0);
+    assert(ent.GetLocation().Y + ent.GetSize().Y <= ent.GetSize().Y);*/
+    if (x < clip.GetLocation().X)
+    {
+        ent.SetLocation(ent.GetLocation().X + clip.GetLocation().X - x, ent.GetLocation().Y);
+    }
+    if (y < clip.GetLocation().Y)
+    {
+        ent.SetLocation(ent.GetLocation().X, ent.GetLocation().Y + clip.GetLocation().Y - y);
+    }
+    if (x + ent.GetSize().X > clip.GetLocation().X + clip.GetSize().X)
+    {
+        ent.SetSize(ent.GetSize().X - x + ent.GetSize().X - clip.GetSize().X, ent.GetSize().Y);
+    }
+    if (y + ent.GetSize().Y > clip.GetLocation().Y + clip.GetSize().Y)
+    {
+        ent.SetSize(ent.GetSize().X, ent.GetSize().Y - y + ent.GetSize().Y - clip.GetSize().Y);
+    }
+    for (int sx = ent.GetLocation().X; sx < ent.GetLocation().X + ent.GetSize().X; sx++)
+        for (int sy = ent.GetLocation().Y; sy < ent.GetLocation().Y + ent.GetSize().Y; sy++)
+        {
+            if (!(s.GetPixel(sx, sy).fullColor == Chroma.fullColor))
+            {
+                PixelDraw(x + sx - ent.GetLocation().X, y + sy - ent.GetLocation().Y, s.GetPixel(sx, sy));
+            }
+        }
+}
+
 void DrawSpriteNonChroma(int x, int y, const Surface& s)
 {
     const int width = s.GetWidth();

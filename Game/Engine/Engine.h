@@ -30,6 +30,8 @@ void DrawSprite(int x, int y, const Surface& s, Color Chroma);
 
 void DrawSprite(int x, int y, const Entity& ent, const Surface& s, Color Chroma);
 
+void DrawSprite(int x, int y, Entity ent, const Entity& clip, const Surface& s, Color Chroma);
+
 void DrawSpriteNonChroma(int x, int y, const Surface& s);
 
 void DrawSpriteNonChroma(int x, int y, const Entity& ent, const Surface& s);

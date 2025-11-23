@@ -38,14 +38,29 @@ void Enemy::Move(const float dt, int lines[], int linesNum, const int screenWidt
     {
         Location.X += Speed * dt;
         //Location.Y += 100 * dt;
-        Location.Y += cos(100 * dt);
+        if (Location.X >= 500)
+            Location.Y += cos(100 * dt);
+        else
+            Location.Y -= cos(100 * dt);
+
     }
     else
     {
         //Location.Y -= 100 * dt;
-        Location.Y -= cos(100 * dt);
+        if(Location.X < 520)
+            Location.Y += cos(100 * dt);
+        else
+            Location.Y -= cos(100 * dt);
         Location.X -= Speed * dt;
     }
 
     LineMove(dt, lines, linesNum);
+}
+
+const void Enemy::Draw()
+{
+    if(!(Location.Y < 0))
+        DrawSprite(Location.X, Location.Y, IdleRegion, Entity{ {0, 0}, { SCREEN_WIDTH, SCREEN_HEIGHT }, Colors::Black }, Sprite, Colors::Magenta);
+    
+    //Entity::Draw();
 }
