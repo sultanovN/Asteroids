@@ -34,8 +34,10 @@ static class Game
     Surface TestSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue.bmp" );
     Surface BackGroundSprite = Surface( "C:/Projects/Asteroids/Game/Images/Backgrounds/blue(2).bmp" );
     Surface LoopBackGroundSprite = Surface( "C:/Projects/Asteroids/Game/Images/desert-backgorund-looped_4x.bmp" );
+
     Surface ProjectileSprite = Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp");
     Surface AsteroidSprite = Surface("C:/Projects/Asteroids/Game/Images/meteorBrown_big4.bmp");
+    Surface HealthSprite = Surface("C:/Projects/Asteroids/Game/Images/heart_sharp.bmp");
 
 public:
     Game();

@@ -226,7 +226,8 @@ void Game::gameDraw()
 
         for (int i = 1; i < player.Health + 1; i++)
         {
-            DrawRectangle(50.f * i, 700.f, 20.f, 20.f, Colors::Red);
+            DrawSprite(50.f * i, 700.f, Entity{ {0, 0}, {21, 17}, Colors::Black }, Entity{ {0,0}, {SCREEN_WIDTH, SCREEN_HEIGHT}, Colors::Black }, HealthSprite, Colors::Magenta);
+
         }
         break;
     }
@@ -260,7 +261,10 @@ void Game::gameDraw()
 
         for (int i = 1; i < player.Health + 1; i++)
         {
-            DrawRectangle(50.f * i, 700.f, 20.f, 20.f, Colors::Red);
+            DrawSprite(50.f * i, 700.f, Entity{ {0, 0}, {21, 17}, Colors::Black }, Entity{ {0,0}, {SCREEN_WIDTH, SCREEN_HEIGHT}, Colors::Black }, HealthSprite, Colors::Magenta);
+
+            //DrawRectangle(50.f * i, 700.f, 20.f, 20.f, Colors::Red);
+
         }
         StartContinue.Draw();
         Exit.Draw();
