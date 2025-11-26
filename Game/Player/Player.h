@@ -43,6 +43,8 @@ public:
 
     void BonusEffect(EBonusTypes BonusType);
 
+    //void Damage(const uint8_t Damage, ProjectileComponent ProjComp);
+
     //bool BonusCollision(const Vector2D BonusLocation, const Vector2D BonusSize, const EBonusTypes BonusType);
     
     //void BonusEffect(EBonusTypes BonusType);

@@ -45,8 +45,10 @@ void ProjectileComponent::CollisionRect(int8_t& EnemyHealth, const uint8_t Damag
                 isAlive = false;
             }
         }
+
     }
 }
+
 
 //Collision with enemy projectiles
 void ProjectileComponent::CollisionRect(std::vector<Projectile>& EnemyProjectiles, const bool destructable)

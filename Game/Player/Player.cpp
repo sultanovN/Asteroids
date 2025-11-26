@@ -169,3 +169,21 @@ void Player::BonusEffect(EBonusTypes BonusType)
     }
 }
 
+//void Player::Damage(const uint8_t Damage, ProjectileComponent ProjComp)
+//{
+//    for (int i = 0; i < ProjComp.GetProjectiles().size(); i++)
+//    {
+//        if (ProjComp.GetProjectiles().at(i).Collision(Location, Size))
+//        {
+//            Health -= Damage;
+//            ProjComp.GetProjectiles().erase(ProjComp.GetProjectiles().begin() + i);
+//            SetLocation(500.0f, 600.0f );
+//            //projectiles.at(i).SetLocation(Location.X, Location.Y);
+//            if (Health <= 0)
+//            {
+//                isAlive = false;
+//            }
+//        }
+//
+//    }
+//}
