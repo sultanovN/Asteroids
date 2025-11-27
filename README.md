@@ -1,6 +1,6 @@
 # Space Shooter Game
 
-Game can be played in x64/Release folder
+In order to play download Asteroids.rar in x64 folder
 
 ![image](preview.png)
 
