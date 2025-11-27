@@ -7,7 +7,7 @@ private:
     bool MovingRight = true;
     bool MovingDown = true;
     float Speed;
-    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/enemy-small_4x.bmp");
+    Surface Sprite = Surface("Sprites/enemy-small_4x.bmp");
 
     Entity IdleRegion{ {0,0}, {63, 63}, Colors::Black };
 public:

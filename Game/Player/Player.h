@@ -12,7 +12,7 @@ private:
     std::chrono::milliseconds projectilefrequency;
     float Speed;
     //Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/playerShip1_blue.bmp");
-    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/ship_4x.bmp");
+    Surface Sprite = Surface("Sprites/ship_4x.bmp");
 
     bool Idle = false;
     Entity Idle_1{ {128, 0}, {63, 95}, Colors::Black };
@@ -37,7 +37,7 @@ public:
 
     float GetSpeed()const { return Speed; };
 
-    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp"), {24, 28}, {19, 19}, 500.f, Colors::Blue};
+    ProjectileComponent ProjComponent{ {Location.X + Size.X / 2 - 5.f, Location.Y - 20.f}, Surface("Sprites/laser-bolts_4x.bmp"), {24, 28}, {19, 19}, 500.f, Colors::Blue};
 
     void Control(float dt);
 

@@ -6,7 +6,7 @@ class Projectile : public Entity
 {
     float Speed;
 
-    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp");
+    Surface Sprite = Surface("Sprites/laser-bolts_4x.bmp");
     Vector2D SpriteRegionLocation;
 public:
     Projectile(Vector2D Location, Vector2D Size, float Speed, uint32_t Color, Surface Sprite, Vector2D SpriteRegionLocation)

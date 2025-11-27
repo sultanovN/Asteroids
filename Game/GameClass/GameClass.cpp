@@ -4,8 +4,8 @@
 
 static int lines[] = { 0,0,0,0 };
 
-static ProjectileComponent EnemyProjComponent{ {20.f, 20.f},Surface("C:/Projects/Asteroids/Game/Images/laser-bolts_4x.bmp"), Vector2D{24, 28}, { 19, 19 }, -400.f, Colors::Red };
-static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f},Surface("C:/Projects/Asteroids/Game/Images/meteorBrown_big4.bmp"), Vector2D{0, 0}, {97, 95}, -80.f, Colors::Brown};
+static ProjectileComponent EnemyProjComponent{ {20.f, 20.f},Surface("Sprites/laser-bolts_4x.bmp"), Vector2D{24, 28}, { 19, 19 }, -400.f, Colors::Red };
+static ProjectileComponent AsteroidsProjComponent{ {20.f, 20.f},Surface("Sprites/meteorBrown_big4.bmp"), Vector2D{0, 0}, {97, 95}, -80.f, Colors::Brown};
 
 static Entity Background{ Vector2D(0,0), Vector2D(SCREEN_WIDTH, SCREEN_HEIGHT) , Colors::White };
 

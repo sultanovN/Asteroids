@@ -16,7 +16,7 @@ class Bonus: public Entity
 {
     EBonusTypes BonusType;
     float Speed;
-    Surface Sprite = Surface("C:/Projects/Asteroids/Game/Images/power-up_3x.bmp");
+    Surface Sprite = Surface("Sprites/power-up_3x.bmp");
 public:
     Bonus(Vector2D Location, EBonusTypes BonusType = EBonusTypes::ProjectileSpeed, 
         uint32_t Color = Colors::MakeColor(255, 0, 0), float Speed = 200.f, Vector2D Size = { 45.f, 30.f })
